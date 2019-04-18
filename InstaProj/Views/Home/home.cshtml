@@ -1,11 +1,8 @@
-﻿
+﻿@model InstaProj.Models.Entidades.Usuario
     <main>
     <div class="container">
         <div class="row">
-
             <div class="col s2">
-
-
                 <ul id="sidebar-principal" class="sidenav sidenav-fixed">
                     <li>
                         <div class="user-view">
@@ -13,9 +10,9 @@
                                 <img
                                     src="https://i1.wp.com/www.wallpapersbyte.com/wp-content/uploads/2015/07/Counter-Strike-Global-Offensive-Logo-Black-Soldier-Gun-White-Text-Symbol-Valve-WallpapersByte-com-2560x1600.jpg?resize=300%2C160&ssl=1">
                             </div>
-                            <a href="#user"><img class="circle" src="~/images/MIisA6K.jpg"></a>
-                            <a href="#name"><span class="white-text name">@ViewBag.msg</span></a>
-                            <a href="#email"><span class="white-text email">eduardoleodasilva@gmail.com</span></a>
+                            <a href="#user"><img class="circle" src="/Home/CarregarImagem"></a>
+                            <a href="#name"><span class="white-text name">@Model.Nome</span></a>
+                            <a href="#email"><span class="white-text email">@Model.Email</span></a>
                         </div>
                     </li>
                     <li><a href="#!">Notificações <span class="new badge">4</span></a> </li>
@@ -46,20 +43,13 @@
                         <span></span>
                     </div>
                     <div class="card-action">
-
                     </div>
-
                     <div class="card-action">
                         <input type="text"> <button>Enviar</button>
                     </div>
-                </div>
-                
-
-               
+                </div>    
             </div>
-
         </div>
-
     </div>
 
 

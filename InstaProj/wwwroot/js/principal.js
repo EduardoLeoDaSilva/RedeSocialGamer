@@ -23,17 +23,19 @@ var btnFormCadastro = $("#cadastrarBtn");
 function validarLogin() {
     btnFormLogin.click(function () {
         event.preventDefault();
-        btnFormLogin.attr("disabled", "true");
+        btnFormLogin.attr("disabled", "disabled");
         var isValid = validarCamposLogin();
         if (isValid == true) {
             enviarRequestLogin();
-            btnFormLogin.attr("disabled", "false");
 
         }
 
 
 
+
     });
+    btnFormLogin.attr("disabled", false);
+
 }
 
 function enviarRequestLogin() {
@@ -111,8 +113,9 @@ function enviarCadastro() {
             enviarRequestCadastro();
             $(formCadastro).each(function () {
                 this.reset();
-               
             });
+            $("#imagemPrevia").attr("src", "");
+
             btnFormCadastro.attr("disabled", false);
         }
         btnFormCadastro.attr("disabled", false);

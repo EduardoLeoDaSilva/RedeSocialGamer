@@ -49,7 +49,6 @@ namespace InstaProj.Identity
         {
             await _signInManager.SignOutAsync();
         }
-
     }
 
 }

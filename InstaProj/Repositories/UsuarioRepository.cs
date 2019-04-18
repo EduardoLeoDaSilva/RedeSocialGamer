@@ -30,5 +30,11 @@ namespace InstaProj.Repositories
 
         }
 
+        public  Usuario GetUsuarioPorEmail(string email)
+        {
+            var usuario = _context.Set<Usuario>().Where(user => user.Email == email).SingleOrDefault();
+            return usuario;
+        }
+
     }
 }
