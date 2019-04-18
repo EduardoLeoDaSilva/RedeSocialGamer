@@ -1,0 +1,253 @@
+﻿@model InstaProj.Models.ViewModels.UsuarioViewModel
+<header>
+
+    <div class="navbar-fixed">
+        <nav>
+            <div class="nav-wrapper">
+                <a href="#!" class="brand-logo">Logo</a>
+                <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+                <ul class="right hide-on-med-and-down">
+                    <li><a href="#modalCadastro" class="modal-trigger">Cadastrar</a></li>
+                    <li><a href="#modalLogin" class="modal-trigger">Entrar</a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+    <ul class="sidenav" id="mobile-demo">
+        <li><a href="#modalCadastro" class="modal-trigger">Cadastrar</a></li>
+        <li><a href="#modalLogin" class="modal-trigger">Entrar</a></li>
+    </ul>
+
+
+
+
+
+
+</header>
+
+
+<main>
+
+    <div id="modalCadastro" class="modal">
+        <div class="modal-content">
+            <h4>Cadastro</h4>
+            <p>Preencha os dados a seguir</p>
+
+            <div class="row">
+                <form class="col s12" id="form-cadastro" enctype="multipart/form-data" method="post">
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="Nome" asp-for="@Model.Nome" type="text" class="validate">
+                            <label asp-for="Nome"></label>
+                            <span asp-validation-for="Nome"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="email" name="email" asp-for="@Model.Email" class="validate">
+                            <label asp-for="Email">Email</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <select id="sexo" asp-for="@Model.Sexo">
+                                <option value="M">Masculino</option>
+                                <option value="F">Feminino</option>
+                            </select>
+                            <label asp-for="Sexo"></label>
+                            <span asp-validation-for="Sexo"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="nascimento" asp-for="@Model.Nascimento" class="datepicker">
+                            <label asp-for="Nascimento"></label>
+                            <span asp-validation-for="Nascimento"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <input name="password" id="senha" asp-for="Password" class="validate">
+                            <label asp-for="Password"></label>
+                            <span asp-validation-for="Password"></span>
+                        </div><div class="input-field col s6">
+                            <input name="confirmPassword" id="confirmPassword" asp-for="@Model.ConfirmPassword" class="validate">
+                            <label asp-for="ConfirmPassword"></label>
+                            <span asp-validation-for="ConfirmPassword"></span>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <div class="file-field input-field">
+                                <div class="btn">  
+                                    <span>File</span>
+                                    <input id="foto" accept="image/png, image/jpeg" data-caption="Foto Upload" asp-for="@Model.Foto" type="file">
+                                    <span asp-validation-for="Foto"></span>
+                                </div>
+                                <div class="file-path-wrapper">
+                                    <input class="file-path validate" type="text">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input-field col s6">
+                            <img class="materialboxed" width="150" id="imagemPrevia">
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <button class="waves-effect waves-light btn" id="cadastrarBtn">Cadastrar</button>
+                        </div>
+                        <div class="input-field col s6">
+                            <div id="spinner-cadastro" class="preloader-wrapper small  ">
+                                <div class="spinner-layer spinner-green-only ">
+                                    <div class="circle-clipper left">
+                                        <div class="circle"></div>
+                                    </div><div class="gap-patch">
+                                        <div class="circle"></div>
+                                    </div><div class="circle-clipper right">
+                                        <div class="circle"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="container principal">
+
+        <div class="row">
+            <div class="col s12"><br></div>
+            <div class="col s12 ">
+
+                <div class="slider fullscreen">
+                    <ul class="slides">
+                        <li>
+                            <img src="https://cdn.vs.com.br/webedia-temp/1541419312747-tr-2-wallpaper.png"> <!-- random image -->
+                            <div class="caption center-align">
+                                <h3>Cadastra-se se vc curte CS:GO</h3>
+                                <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
+                            </div>
+                        </li>
+                        <li>
+                            <img src="https://static-assets-prod.epicgames.com/fortnite/static/webpack/8704d4d5ffd1c315ac8e2c805a585764.jpg"> <!-- random image -->
+                            <div class="caption left-align">
+                                <h3>Cadastra-se se vc curte FORTNITE</h3>
+                                <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
+                            </div>
+                        </li>
+                        <li>
+                            <img src="https://s3-sa-east-1.amazonaws.com/siterawar-wp-uploads/wp-content/uploads/2018/06/18094449/LOL.jpg"> <!-- random image -->
+                            <div class="caption right-align">
+                                <h3>Cadastra-se se vc curte League of Legends</h3>
+                                <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
+                            </div>
+                        </li>
+                        <li>
+                            <img src="https://militarygamingleague.com/wp-content/uploads/Apex-Legends-Header-Image.jpg"> <!-- random image -->
+                            <div class="caption center-align">
+                                <h3>Cadastra-se se vc curte Apex</h3>
+                                <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+            <div class="col s6">6-columns (one-half)</div>
+            <div class="col s6">6-columns (one-half)</div>
+        </div>
+    </div>
+
+
+    <div id="modalLogin" class="modal">
+        <div class="modal-content">
+            <h4>Log in</h4>
+            <div class="row">
+                <form id="form-login" method="post" class="col s12">
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="email" asp-for="Email">
+                            <label asp-for="Email"></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="password" asp-for="Password">
+                            <label asp-for="Password"></label>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <button class="waves-effect waves-light btn" id="btn-entrar">Entrar</button>
+                        </div>
+                        <div class="input-field col s6">
+                            <div id="spinner-login" class="preloader-wrapper small  ">
+                                <div class="spinner-layer spinner-green-only ">
+                                    <div class="circle-clipper left">
+                                        <div class="circle"></div>
+                                    </div><div class="gap-patch">
+                                        <div class="circle"></div>
+                                    </div><div class="circle-clipper right">
+                                        <div class="circle"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+
+
+                    </div>
+                </form>
+            </div>
+        </div>
+
+</main>
+
+
+<footer>
+
+    <div class="container" class="page-footer">
+        <div class="row">
+            <div class="col l6 s12">
+                <h5 class="white-text">Footer Content</h5>
+                <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
+            </div>
+            <div class="col l4 offset-l2 s12">
+                <h5 class="white-text">Links</h5>
+                <ul>
+                    <li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Link 3</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Link 4</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="footer-copyright">
+        <div class="container">
+            © 2014 Copyright Text
+            <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+        </div>
+    </div>
+</footer>
+
+
+@section scripts{
+    <script type="text/javascript" src="~/js/principal.js"></script>
+}
+
+
+
