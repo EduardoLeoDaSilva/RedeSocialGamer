@@ -13,7 +13,7 @@ namespace InstaProj
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Postagem> Postagens { get; set; }
         public DbSet<Feed> Feeds { get; set; }
-
+        public DbSet<Noticias> Noticias { get; set; }
         public ApplicationContext(DbContextOptions<ApplicationContext> options):base(options)
         {
 

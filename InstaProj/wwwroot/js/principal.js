@@ -1,10 +1,11 @@
 ﻿
 $(function () {
-
+    //matearilzed elements functions
     $('.datepicker').datepicker({
         "format": "dd-mm-yyyy"
     });
     $('.materialboxed').materialbox();
+
 
     validarLogin();
     enviarCadastro();
@@ -19,25 +20,29 @@ var formCadastro = $("#form-cadastro").get(0);
 var btnFormCadastro = $("#cadastrarBtn");
 
 
-
+//valida utilizando as funções enviarRequestLogin e ValidarCamposLogin
 function validarLogin() {
     btnFormLogin.click(function () {
         event.preventDefault();
-        btnFormLogin.attr("disabled", "disabled");
+        btnFormLogin.attr("disabled", true);
         var isValid = validarCamposLogin();
         if (isValid == true) {
             enviarRequestLogin();
 
+        } else {
+            btnFormLogin.attr("disabled", false);
+
         }
 
+        
 
 
 
     });
-    btnFormLogin.attr("disabled", false);
 
 }
 
+//realiza a requisao ajax
 function enviarRequestLogin() {
     spinner.addClass("active");
     var inputsForm = formLogin.find('input');
@@ -49,7 +54,7 @@ function enviarRequestLogin() {
     };
 
     $.ajax({
-        url: "Usuario/EfetuarLogIn",
+        url: "/Usuario/EfetuarLogIn",
         contentType: "application/json",
         method: "post",
         data: JSON.stringify(usuario)
@@ -59,23 +64,35 @@ function enviarRequestLogin() {
         if (response == "Success") {
             btnFormLogin.notify("Usuario logado com sucesso", { className: "success", position: "right" });
             setTimeout(function () {
-                location.assign("home/home");
+                location.assign("/home/home");
+                btnFormLogin.attr("disabled", false);
+
             }, 1500);
         } else if (response == "LockedOut") {
             btnFormLogin.notify("Usuario bloqueado por 3 min", { className: "warn", position: "right" });
+            btnFormLogin.attr("disabled", false);
+
         } else if (response == "NotAllowed") {
             btnFormLogin.notify("Acesso não permitido", { className: "warn", position: "right" });
+            btnFormLogin.attr("disabled", false);
+
         } else {
             btnFormLogin.notify("Email ou senha incorretos", { className: "error", position: "right" });
+            btnFormLogin.attr("disabled", false);
+
         }
     }).always(function (response) {
         console.log(response);
         spinner.removeClass("active");
+
     }).fail(function () {
-        btnFormLogin.notify("Access granted", { className: "error", position: "right" });
+        btnFormLogin.notify("Ocorreu um erro inesperado, por favor tente mais tarde", { className: "error", position: "right" });
+        btnFormLogin.attr("disabled", false);
+
     });
 }
 
+//valida os campos do formulario Login
 function validarCamposLogin() {
     var formLogin = $("#form-login");
     var inputs = formLogin.find("input");
@@ -103,7 +120,7 @@ function validarCamposLogin() {
 
 }
 
-
+//valida utilizando as funções enviarRequestCadastro e ValidarCamposCadastro
 function enviarCadastro() {
     btnFormCadastro.click(function () {
         event.preventDefault();
@@ -125,6 +142,7 @@ function enviarCadastro() {
     
 }
 
+//realiza a requisao ajax
 function enviarRequestCadastro() {
     spinnerCad.addClass("active");
 
@@ -132,7 +150,7 @@ function enviarRequestCadastro() {
 
 
         $.ajax({
-            url: "Usuario/Cadastrar",
+            url: "/Usuario/Cadastrar",
             contentType: "application/json",
             method: "post",
             data: data,
@@ -154,7 +172,7 @@ function enviarRequestCadastro() {
 
 }
 
-
+//valida os campos do formulario cadastro
 function validarCamposCadastro() {
 
     event.preventDefault();
@@ -193,6 +211,7 @@ function validarCamposCadastro() {
     return false;
 }
 
+//valida a imagem
 function validarImagem() {
     $("#foto").change(function () {
         var imagemUploade = $("#foto")[0].files[0];

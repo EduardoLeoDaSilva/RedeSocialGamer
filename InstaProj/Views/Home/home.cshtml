@@ -1,14 +1,13 @@
 ﻿@model InstaProj.Models.Entidades.Usuario
-    <main>
+    <main id="main-home">
     <div class="container">
         <div class="row">
-            <div class="col s2">
+
                 <ul id="sidebar-principal" class="sidenav sidenav-fixed">
                     <li>
                         <div class="user-view">
                             <div class="background">
-                                <img
-                                    src="https://i1.wp.com/www.wallpapersbyte.com/wp-content/uploads/2015/07/Counter-Strike-Global-Offensive-Logo-Black-Soldier-Gun-White-Text-Symbol-Valve-WallpapersByte-com-2560x1600.jpg?resize=300%2C160&ssl=1">
+                                <img src="https://i1.wp.com/www.wallpapersbyte.com/wp-content/uploads/2015/07/Counter-Strike-Global-Offensive-Logo-Black-Soldier-Gun-White-Text-Symbol-Valve-WallpapersByte-com-2560x1600.jpg?resize=300%2C160&ssl=1">
                             </div>
                             <a href="#user"><img class="circle" src="/Home/CarregarImagem"></a>
                             <a href="#name"><span class="white-text name">@Model.Nome</span></a>
@@ -21,34 +20,101 @@
                         <div class="divider"></div>
                     </li>
                     <li><a class="subheader">Subheader</a></li>
-                    
+
                     <li><a class="waves-effect waves-light btn modal-trigger" href="#modal1">Amigos</a></li>
                 </ul>
-                <a href="#" data-target="sidebar-principal" class="sidenav-trigger"><i
-                        class="material-icons">menu</i></a>
-            </div>
-            <div class="col s8" id="feedGrid">
-                <div class="card">
-                    <div class="card-image">
-                        <img src="~/images/MIisA6K.jpg">
-                        <span class="card-title">Card Title</span>
+                <a href="#" data-target="sidebar-principal" class="sidenav-trigger">
+                    <i class="material-icons">menu</i>
+                </a>
+
+                <ul class="sidenav sidenav-fixed" id="sidenav-direito">
+                </ul>
+                <a href="#" data-target="sidenav-direito" class="sidenav-trigger" id="triggersidebarRight">
+                    <i class="material-icons">menu</i>
+                </a>
+
+                <div class="container centered" id="container-feed">
+                    <div class="row">
+                        <div class="col s12" id="feedGrid">
+                            <div class="card">
+                                <div class="card-image">
+                                    <img src="~/images/MIisA6K.jpg">
+                                    <span class="card-title">Card Title</span>
+                                </div>
+                                <div class="card-content">
+                                    <p>
+                                        I am a very simple card. I am good at containing small bits of information. I am
+                                        convenient because I require little markup to use effectively.
+                                    </p>
+                                    <button class="btn-floating btn-large waves-effect waves-light blue">
+                                        <i class="material-icons">thumb_up</i>
+                                    </button><span>0</span>
+                                    <button class="btn-floating btn-large waves-effect waves-light green">
+                                        <i class="material-icons">tag_faces</i>
+                                    </button><span>0</span>
+                                    <span></span>
+                                </div>
+                                <div class="card-action">
+                                </div>
+                                <div class="card-action">
+                                    <input type="text"> <button>Enviar</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col s12" id="feedGrid">
+                            <div class="card">
+                                <div class="card-image">
+                                    <img src="~/images/MIisA6K.jpg">
+                                    <span class="card-title">Card Title</span>
+                                </div>
+                                <div class="card-content">
+                                    <p>
+                                        I am a very simple card. I am good at containing small bits of information. I am
+                                        convenient because I require little markup to use effectively.
+                                    </p>
+                                    <button class="btn-floating btn-large waves-effect waves-light blue">
+                                        <i class="material-icons">thumb_up</i>
+                                    </button><span>0</span>
+                                    <button class="btn-floating btn-large waves-effect waves-light green">
+                                        <i class="material-icons">tag_faces</i>
+                                    </button><span>0</span>
+                                    <span></span>
+                                </div>
+                                <div class="card-action">
+                                </div>
+                                <div class="card-action">
+                                    <input type="text"> <button>Enviar</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col s12" id="feedGrid">
+                            <div class="card">
+                                <div class="card-image">
+                                    <img src="~/images/MIisA6K.jpg">
+                                    <span class="card-title">Card Title</span>
+                                </div>
+                                <div class="card-content">
+                                    <p>
+                                        I am a very simple card. I am good at containing small bits of information. I am
+                                        convenient because I require little markup to use effectively.
+                                    </p>
+                                    <button class="btn-floating btn-large waves-effect waves-light blue">
+                                        <i class="material-icons">thumb_up</i>
+                                    </button><span>0</span>
+                                    <button class="btn-floating btn-large waves-effect waves-light green">
+                                        <i class="material-icons">tag_faces</i>
+                                    </button><span>0</span>
+                                    <span></span>
+                                </div>
+                                <div class="card-action">
+                                </div>
+                                <div class="card-action">
+                                    <input type="text"> <button>Enviar</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="card-content">
-                        <p>I am a very simple card. I am good at containing small bits of information. I am
-                            convenient because I require little markup to use effectively.</p>
-                        <button class="btn-floating btn-large waves-effect waves-light blue"><i
-                                class="material-icons">thumb_up</i></button><span>0</span>
-                        <button class="btn-floating btn-large waves-effect waves-light green"><i
-                                class="material-icons">tag_faces</i></button><span>0</span>
-                        <span></span>
-                    </div>
-                    <div class="card-action">
-                    </div>
-                    <div class="card-action">
-                        <input type="text"> <button>Enviar</button>
-                    </div>
-                </div>    
-            </div>
+                </div>
         </div>
     </div>
 
@@ -68,5 +134,7 @@
 </div>
     </main>
 
-
+@section scripts{ 
+    <script src="~/js/homeNoticias.js"></script>
+}
      

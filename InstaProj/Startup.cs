@@ -28,16 +28,10 @@ namespace InstaProj
         public void ConfigureServices(IServiceCollection services)
         {
 
-       
-
-
             services.AddDbContext<IdentityContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Identity")));
             services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default")));
 
             services.AddIdentity<UsuarioIdentity, IdentityRole>().AddEntityFrameworkStores<IdentityContext>();
-
-            
-            
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -71,16 +65,10 @@ namespace InstaProj
                 options.SlidingExpiration = true;
             });
 
-
-
-
-
-
-            
-
             services.AddTransient<IUsuarioRepository, UsuarioRepository>();
             services.AddTransient<IAutenticaoRepository, AutenticaoRepository>();
-
+            services.AddTransient<INoticiasRepository, NoticiasRepository>();
+            
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 

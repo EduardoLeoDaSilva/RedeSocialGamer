@@ -16,6 +16,7 @@ namespace InstaProj.Models.extencoes
             using (var memoryStream = new MemoryStream())
             {
                 stream.CopyTo(memoryStream);
+   
                 return memoryStream.ToArray();
             }
         }

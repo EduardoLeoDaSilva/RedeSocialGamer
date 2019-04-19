@@ -27,5 +27,8 @@ namespace InstaProj.Models.Entidades
         public Usuario Usuario { get; private set; }
         [DataMember]
         public Feed Feed { get; private set; }
+        [DataMember]
+        public byte[] imagem { get; private set; }
+
     }
 }
