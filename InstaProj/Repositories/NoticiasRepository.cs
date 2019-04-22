@@ -17,14 +17,17 @@ namespace InstaProj.Repositories
         }
 
 
-        public IEnumerable<Noticias> GetNoticias()
+        public async Task<IEnumerable<Noticias>> GetNoticias()
         {
             var noticiasBd = _context.Set<Noticias>().ToList().TakeLast(10);
+            var taskFactory = new TaskFactory();
+            return await taskFactory.StartNew(()=> { 
             if(noticiasBd.Count()> 0)
             {
                 return noticiasBd;
             }
             return null;
+            })
 ;        }
 
 

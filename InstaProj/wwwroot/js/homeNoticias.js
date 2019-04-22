@@ -4,6 +4,9 @@ $(document).ready(function () {
     $('#sidenav-direito').sidenav({
         edge: 'right'
     });
+    $(document).ready(function () {
+        $('.collapsible').collapsible();
+    });
     receberNoticiaServidor();
     recebeListaNoticiasServidor();
 });

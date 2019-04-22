@@ -4,20 +4,33 @@ using InstaProj;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace InstaProj.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20190419222238_MudandoPropriedadeTituloNoticas")]
+    partial class MudandoPropriedadeTituloNoticas
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.0-rtm-35687")
+                .HasAnnotation("ProductVersion", "2.1.8-servicing-32085")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("InstaProj.Models.Entidades.Feed", b =>
+                {
+                    b.Property<int>("FeedId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.HasKey("FeedId");
+
+                    b.ToTable("Feeds");
+                });
 
             modelBuilder.Entity("InstaProj.Models.Entidades.Noticias", b =>
                 {
@@ -42,6 +55,9 @@ namespace InstaProj.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("FeedId")
+                        .IsRequired();
+
                     b.Property<byte[]>("Imagem");
 
                     b.Property<string>("Texto");
@@ -49,6 +65,8 @@ namespace InstaProj.Migrations
                     b.Property<int?>("UsuarioId");
 
                     b.HasKey("PostagemId");
+
+                    b.HasIndex("FeedId");
 
                     b.HasIndex("UsuarioId");
 
@@ -84,6 +102,11 @@ namespace InstaProj.Migrations
 
             modelBuilder.Entity("InstaProj.Models.Entidades.Postagem", b =>
                 {
+                    b.HasOne("InstaProj.Models.Entidades.Feed", "Feed")
+                        .WithMany("Postagens")
+                        .HasForeignKey("FeedId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("InstaProj.Models.Entidades.Usuario", "Usuario")
                         .WithMany("Postagens")
                         .HasForeignKey("UsuarioId");

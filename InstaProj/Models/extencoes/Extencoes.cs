@@ -1,4 +1,5 @@
-﻿using InstaProj.Models.ViewModels;
+﻿using InstaProj.Models.Entidades;
+using InstaProj.Models.ViewModels;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -26,6 +27,16 @@ namespace InstaProj.Models.extencoes
             var fileUploaded = userView.Foto;
             var bytesFoto = LerStreamFoto(fileUploaded);
             return bytesFoto;
+        }
+
+        public static PostagemViewModel toViewModel(this Postagem postagem)
+        {
+            if (postagem != null)
+            {
+                var viewModel = new PostagemViewModel(postagem.PostagemId, $"CarregarImagemPostagem/{postagem.PostagemId}", postagem.Texto);
+                return viewModel;
+            }
+            throw new NullReferenceException("Objeto null, o objeto postagem não pode ser nulo");
         }
 
     }

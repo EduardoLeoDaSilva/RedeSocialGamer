@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using InstaProj.BancoDados;
+using InstaProj.Controllers.ControllersTempoReal;
 using InstaProj.Identity;
+using InstaProj.Models.Entidades;
 using InstaProj.Models.Identity;
 using InstaProj.Repositories;
 using Microsoft.AspNetCore.Builder;
@@ -12,6 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using TableDependency.SqlClient;
 
 namespace InstaProj
 {
@@ -68,14 +72,17 @@ namespace InstaProj
             services.AddTransient<IUsuarioRepository, UsuarioRepository>();
             services.AddTransient<IAutenticaoRepository, AutenticaoRepository>();
             services.AddTransient<INoticiasRepository, NoticiasRepository>();
-            
-
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddTransient<IPostagenRepository, PostagenRepository>();
+             services.AddSingleton<NotificacaoDbPostagens, NotificacaoDbPostagens>();
+            services.AddTransient<SqlTableDependency<Postagem>>();
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddSignalR(o => {
+            }).AddJsonProtocol();
 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider provider)
         {
             if (env.IsDevelopment())
             {
@@ -92,12 +99,23 @@ namespace InstaProj
             app.UseCookiePolicy();
 
             app.UseAuthentication();
+            app.UseSignalR(routes =>
+            {
+            routes.MapHub<PostagemHub>("/postagemHub");
+                
+            });
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Principal}/{action=index}/{id?}");
             });
+
+
         }
     }
+
+
 }
+
+

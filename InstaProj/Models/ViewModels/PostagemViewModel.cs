@@ -1,37 +1,37 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
-namespace InstaProj.Models.Entidades
+namespace InstaProj.Models.ViewModels
 {
     [DataContract]
-    public class Postagem
+    public class PostagemViewModel
     {
 
-        public Postagem()
+        public PostagemViewModel()
         {
 
         }
 
-        public Postagem(Usuario usuario, byte[] imagem, string texto)
+        public PostagemViewModel(int postagemId, string imagem, string texto)
         {
-            Usuario = usuario;
+            PostagemId = postagemId;
             Imagem = imagem;
             Texto = texto;
         }
 
         [DataMember]
-        public int PostagemId  { get; private set; }
-        [DataMember]
-        public Usuario Usuario { get; private set; }
+        public int PostagemId { get; private set; }
         //[DataMember]
         //public Feed Feed { get; private set; }
         [DataMember]
-        public byte[] Imagem { get; private set; }
+        public string Imagem { get; private set; }
         [DataMember]
         public string Texto { get; private set; }
+
 
     }
 }
