@@ -73,3 +73,18 @@ img.responsive-img {
     overflow: auto;
     height:850px;
 }
+
+.carousel .indicators .indicator-item.active {
+    background-color: #0df129;
+}
+
+.carousel .indicators .indicator-item {
+    background-color: #ffffff;
+}
+.imagemLida{
+    width: 100px
+}
+
+.imgdupload{
+    border-radius: 10px;
+}

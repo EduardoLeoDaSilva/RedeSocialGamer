@@ -73,6 +73,7 @@ namespace InstaProj
             services.AddTransient<IAutenticaoRepository, AutenticaoRepository>();
             services.AddTransient<INoticiasRepository, NoticiasRepository>();
             services.AddTransient<IPostagenRepository, PostagenRepository>();
+             services.AddTransient<IImagemRepository, ImagemRepository>();
              services.AddSingleton<NotificacaoDbPostagens, NotificacaoDbPostagens>();
             services.AddTransient<SqlTableDependency<Postagem>>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);

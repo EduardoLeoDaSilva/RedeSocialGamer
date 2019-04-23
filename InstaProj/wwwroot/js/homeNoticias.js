@@ -7,11 +7,13 @@ $(document).ready(function () {
     $(document).ready(function () {
         $('.collapsible').collapsible();
     });
+    
+
     receberNoticiaServidor();
     recebeListaNoticiasServidor();
 });
 
-//Faz requisições de 10 em 10 segundos para o servidor em busca de novas noticias
+//Faz requisiï¿½ï¿½es de 10 em 10 segundos para o servidor em busca de novas noticias
 function receberNoticiaServidor() {
     setInterval(function () {
         $.get("GetNoticias", function (response) {
@@ -31,7 +33,7 @@ function recebeListaNoticiasServidor() {
     });
 }
 
-//verifica se essa noticia existe na pagina pra não repetila novamente
+//verifica se essa noticia existe na pagina pra nï¿½o repetila novamente
 function temEssaNoticia(response) {
     var hasNoticia = true;
     var cardGroup = $(".card.blue-grey");

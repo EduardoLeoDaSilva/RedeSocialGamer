@@ -15,10 +15,10 @@ namespace InstaProj.Models.Entidades
 
         }
 
-        public Postagem(Usuario usuario, byte[] imagem, string texto)
+        public Postagem(Usuario usuario, List<Imagem> imagens, string texto)
         {
             Usuario = usuario;
-            Imagem = imagem;
+            Imagens = imagens;
             Texto = texto;
         }
 
@@ -29,7 +29,7 @@ namespace InstaProj.Models.Entidades
         //[DataMember]
         //public Feed Feed { get; private set; }
         [DataMember]
-        public byte[] Imagem { get; private set; }
+        public List<Imagem> Imagens { get; private set; }
         [DataMember]
         public string Texto { get; private set; }
 

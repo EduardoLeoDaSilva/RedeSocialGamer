@@ -7,7 +7,8 @@
                 <li>
                     <div class="user-view">
                         <div class="background">
-                            <img src="https://i1.wp.com/www.wallpapersbyte.com/wp-content/uploads/2015/07/Counter-Strike-Global-Offensive-Logo-Black-Soldier-Gun-White-Text-Symbol-Valve-WallpapersByte-com-2560x1600.jpg?resize=300%2C160&ssl=1">
+                            <img
+                                src="https://i1.wp.com/www.wallpapersbyte.com/wp-content/uploads/2015/07/Counter-Strike-Global-Offensive-Logo-Black-Soldier-Gun-White-Text-Symbol-Valve-WallpapersByte-com-2560x1600.jpg?resize=300%2C160&ssl=1">
                         </div>
                         <a href="#user"><img class="circle" src="/Home/CarregarImagemPerfil"></a>
                         <a href="#name"><span class="white-text name">@Model.Nome</span></a>
@@ -48,7 +49,7 @@
                                         <div class="row">
                                             <div class="input-field col s12">
                                                 <textarea id="textarea2" name="texto" class="materialize-textarea"
-                                                          data-length="120"></textarea>
+                                                    data-length="120"></textarea>
                                                 <label for="textarea2">Mensagem</label>
                                             </div>
                                         </div>
@@ -61,15 +62,18 @@
                                                 </div>
                                                 <div class="file-path-wrapper">
                                                     <input class="file-path validate" type="text"
-                                                           placeholder="Upload one or more files">
+                                                        placeholder="Upload one or more files">
                                                 </div>
                                             </div>
+                                           
                                             <button class="btn-floating btn-large waves-effect waves-light red"
-                                                    id="btn-postar">
-                                                <i class="material-icons">send</i>
-                                            </button>
-
+                                            id="btn-postar">
+                                            <i class="material-icons">send</i>
+                                        </button>
                                         </div>
+                                            <div class="col 12" id="col-imagens-upload">
+                                            </div>
+                                        
                                     </form>
                                 </div>
                             </div>
@@ -126,9 +130,11 @@
 </main>
 
 @section scripts{
-    <script src="~/js/homeNoticias.js"></script>
-    <script src="~/lib/signalr/dist/browser/signalr.js"></script>
-    <script src="~/js/homePostagens.js"></script>
-    <script src="~/js/HomeFeed.js"></script>
-    
+<script src="~/js/homeNoticias.js"></script>
+<script src="~/lib/signalr/dist/browser/signalr.js"></script>
+<script src="~/js/homePostagens.js"></script>
+<script src="~/js/HomeFeed.js"></script>
+
+
+
 }

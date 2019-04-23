@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 namespace InstaProj.Models.extencoes
 {
     public static class Extencoes
+        
     {
         public static byte[] LerStreamFoto(IFormFile formFile)
         {
@@ -20,6 +21,22 @@ namespace InstaProj.Models.extencoes
    
                 return memoryStream.ToArray();
             }
+        }
+
+        public static List<byte[]> toListaBytes(this IFormFileCollection formFiles)
+        {
+            var list = new List<byte[]>();
+            foreach (var formFile in formFiles)
+            {
+                using (var streamFile = formFile.OpenReadStream())
+                using (var memoryStream = new MemoryStream())
+                {
+                    streamFile.CopyTo(memoryStream);
+                    var bytesFile = memoryStream.ToArray();
+                    list.Add(bytesFile);
+                }
+            }
+            return list;
         }
 
         public static byte[] ObterFotoBytes(this UsuarioViewModel userView)
@@ -33,7 +50,13 @@ namespace InstaProj.Models.extencoes
         {
             if (postagem != null)
             {
-                var viewModel = new PostagemViewModel(postagem.PostagemId, $"CarregarImagemPostagem/{postagem.PostagemId}", postagem.Texto);
+                var listaImageLink = new List<string>();
+                foreach(var imagemLink in postagem.Imagens)
+                {
+                    listaImageLink.Add($"CarregarImagemPostagem/{ imagemLink.ImagemId}");
+                }
+
+                var viewModel = new PostagemViewModel(postagem.PostagemId, listaImageLink, postagem.Texto);
                 return viewModel;
             }
             throw new NullReferenceException("Objeto null, o objeto postagem não pode ser nulo");

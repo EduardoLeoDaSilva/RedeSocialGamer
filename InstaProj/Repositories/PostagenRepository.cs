@@ -30,7 +30,7 @@ namespace InstaProj.Repositories
         }
 
 
-        public   Postagem AddPostagem(Postagem postagem)
+        public Postagem AddPostagem(Postagem postagem)
         {
 
             _context.Set<Postagem>().Add(postagem);

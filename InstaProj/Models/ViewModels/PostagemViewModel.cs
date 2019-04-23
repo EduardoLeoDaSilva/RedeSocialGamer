@@ -16,10 +16,10 @@ namespace InstaProj.Models.ViewModels
 
         }
 
-        public PostagemViewModel(int postagemId, string imagem, string texto)
+        public PostagemViewModel(int postagemId, List<string> imagens, string texto)
         {
             PostagemId = postagemId;
-            Imagem = imagem;
+            Imagens = imagens;
             Texto = texto;
         }
 
@@ -28,7 +28,7 @@ namespace InstaProj.Models.ViewModels
         //[DataMember]
         //public Feed Feed { get; private set; }
         [DataMember]
-        public string Imagem { get; private set; }
+        public List<string> Imagens { get; private set; }
         [DataMember]
         public string Texto { get; private set; }
 

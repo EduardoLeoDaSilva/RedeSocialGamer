@@ -16,6 +16,7 @@ using TableDependency.SqlClient.Base;
 using InstaProj.Models.ViewModels;
 using InstaProj.Models.extencoes;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 
 namespace InstaProj.Controllers
 {
@@ -25,16 +26,19 @@ namespace InstaProj.Controllers
 
         private readonly IUsuarioRepository _usuarioRepository;
         private readonly INoticiasRepository _noticiasRepository;
-        private readonly IPostagenRepository postagenRepository;
-        private readonly IHubContext<PostagemHub> hubPostage;
+        private readonly IPostagenRepository _postagenRepository;
+        private readonly IHubContext<PostagemHub> _hubPostage;
+        private readonly IImagemRepository _imagemRepository;
         private Usuario usuarioLogado;
         
-        public HomeController(IUsuarioRepository usuarioRepository, INoticiasRepository noticiasRepository, IPostagenRepository postagenRepository, IHubContext<PostagemHub> hubPostagem)
+        public HomeController(IUsuarioRepository usuarioRepository, INoticiasRepository noticiasRepository, IPostagenRepository postagenRepository
+            , IHubContext<PostagemHub> hubPostagem, IImagemRepository imagemRepository)
         {
             _usuarioRepository = usuarioRepository;
             _noticiasRepository = noticiasRepository;
-            this.postagenRepository = postagenRepository;
-            this.hubPostage = hubPostagem;
+            _postagenRepository = postagenRepository;
+            _hubPostage = hubPostagem;
+            _imagemRepository = imagemRepository;
 
 
 
@@ -56,10 +60,10 @@ namespace InstaProj.Controllers
             return imagem;
         }
 
-        
+
         public async Task<FileResult> CarregarImagemPostagem([FromRoute]int id)
         {
-            var imagemBytes = postagenRepository.GetPostagemById(id).Imagem;
+            var imagemBytes = _imagemRepository.GetImagensPostagem(id);
             FileContentResult imagem = await ObterImagem(imagemBytes);
             return imagem;
         }
@@ -99,36 +103,50 @@ namespace InstaProj.Controllers
             try
             {
                 var texto = HttpContext.Request.Form["texto"];
-                var foto = HttpContext.Request.Form.Files["foto"];
+                var foto = HttpContext.Request.Form.Files;
                 var usuarioLogadoEmail = HttpContext.User.Identity.Name;
-                PostagemViewModel postagemViewModel = InsereERecuperaPostagemNova(texto, foto, usuarioLogadoEmail);
+
+                var postagemViewModel = InsereERecuperaPostagemNova(texto, foto, usuarioLogadoEmail);
 
                 //await hubPostage.Clients.User(userLoggedId).SendAsync("ReceberPostagem", postagemViewModel);
-                await hubPostage.Clients.All.SendAsync("ReceberPostagem", postagemViewModel);
+               await _hubPostage.Clients.All.SendAsync("ReceberPostagem", postagemViewModel);
             }
             catch (Exception e)
             {
-                await hubPostage.Clients.All.SendAsync("ReceberErro", e.Message);
+                await _hubPostage.Clients.All.SendAsync("ReceberErro", e.Message);
 
                 
             }
 
-            await hubPostage.Clients.All.SendAsync("ReceberErro", "Ocorreu um erro desconhecido, por favor tente mais tarde!");
+            await _hubPostage.Clients.All.SendAsync("ReceberErro", "Ocorreu um erro desconhecido, por favor tente mais tarde!");
 
         }
 
-        private  PostagemViewModel InsereERecuperaPostagemNova(Microsoft.Extensions.Primitives.StringValues texto, Microsoft.AspNetCore.Http.IFormFile foto, string usuarioLogadoEmail)
+        private PostagemViewModel InsereERecuperaPostagemNova(Microsoft.Extensions.Primitives.StringValues texto, IFormFileCollection foto, string usuarioLogadoEmail)
         {
             var usuario = _usuarioRepository.GetUsuarioPorEmail(usuarioLogadoEmail);
-            var imagemBytes = Extencoes.LerStreamFoto(foto);
-            var postagem = new Postagem(usuario, imagemBytes, texto);
-            postagem = postagenRepository.AddPostagem(postagem);
+            var imagemBytes = foto.toListaBytes();
+            List<Imagem> listaImagens = ListaBytesToListaImagens(imagemBytes);
+
+            var postagem = new Postagem(usuario, listaImagens, texto);
+            postagem = _postagenRepository.AddPostagem(postagem);
             var userLoggedId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
             var postagemViewModel = postagem.toViewModel();
             return postagemViewModel;
         }
 
+        private static List<Imagem> ListaBytesToListaImagens(List<byte[]> imagemBytes)
+        {
+            var listaImagens = new List<Imagem>();
+            foreach (var imagemByte in imagemBytes)
+            {
+
+                listaImagens.Add(new Imagem(imagemByte));
+            }
+
+            return listaImagens;
+        }
     }
 }
 
