@@ -17,6 +17,8 @@ using InstaProj.Models.ViewModels;
 using InstaProj.Models.extencoes;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using InstaProj.Models.Identity;
 
 namespace InstaProj.Controllers
 {
@@ -31,9 +33,11 @@ namespace InstaProj.Controllers
         private readonly IImagemRepository _imagemRepository;
         private readonly IAmigoRepository _amigoRepository;
         private Usuario usuarioLogado;
+        private readonly UserManager<UsuarioIdentity> _userManager;
 
         public HomeController(IUsuarioRepository usuarioRepository, INoticiasRepository noticiasRepository, IPostagenRepository postagenRepository
-            , IHubContext<PostagemHub> hubPostagem, IImagemRepository imagemRepository, IAmigoRepository amigoRepository)
+            , IHubContext<PostagemHub> hubPostagem, IImagemRepository imagemRepository, IAmigoRepository amigoRepository,
+            UserManager<UsuarioIdentity> userManager)
         {
             _usuarioRepository = usuarioRepository;
             _noticiasRepository = noticiasRepository;
@@ -41,6 +45,7 @@ namespace InstaProj.Controllers
             _hubPostage = hubPostagem;
             _imagemRepository = imagemRepository;
             _amigoRepository = amigoRepository;
+            _userManager = userManager;
         }
 
         public IActionResult Home()
@@ -164,7 +169,7 @@ namespace InstaProj.Controllers
         }
 
         [HttpPost]
-        public string AddAmigo([FromBody]int id)
+        public async Task<string> AddAmigo([FromBody]int id)
         {
             var email = HttpContext.User.Identity.Name;
             if (email != null)
@@ -172,6 +177,7 @@ namespace InstaProj.Controllers
                 try
                 {
                     _amigoRepository.AddAmigo(email, id);
+                    await EnviarNovaListaAmigosTempoReal(id);
                     return "Adiconado com sucesso";
                 }
                 catch (Exception e)
@@ -184,6 +190,50 @@ namespace InstaProj.Controllers
 
 
         }
+
+        private async Task EnviarNovaListaAmigosTempoReal(int id)
+        {
+            var usuarioBd = _usuarioRepository.GetUsuarioPorEmail(HttpContext.User.Identity.Name);
+            var usuarioAmigo = _usuarioRepository.GetUsuarioPorId(id);
+            var listaAmigosUsuarioConectado = _amigoRepository.GetAmigosSemImagem(usuarioBd.UsuarioId);
+           var listaAmigosUsuarioAmigo = _amigoRepository.GetAmigosSemImagem(usuarioAmigo.UsuarioId);
+            var idUsuarioConectado = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+
+            var listaUsuarioConecatadoNaoAmigos = _amigoRepository.GetUsuarioNaoAmigos(usuarioBd.Email);
+            var listaUsuarioAmigoNaoAmigos = _amigoRepository.GetUsuarioNaoAmigos(usuarioAmigo.Email);
+
+
+            var usuarioAmigoIdentity = await _userManager.FindByEmailAsync(usuarioAmigo.Email);
+            var usuarioAmigoId = usuarioAmigoIdentity.Id;
+
+            await _hubPostage.Clients.User(idUsuarioConectado).SendAsync("AoAdicionarAmigo", listaAmigosUsuarioConectado);
+            await _hubPostage.Clients.User(usuarioAmigoId).SendAsync("AoAdicionarAmigo", listaAmigosUsuarioAmigo);
+            await _hubPostage.Clients.User(idUsuarioConectado).SendAsync("AtualizarListaNaoAmigos", listaUsuarioConecatadoNaoAmigos);
+            await _hubPostage.Clients.User(usuarioAmigoId).SendAsync("AtualizarListaNaoAmigos",  listaUsuarioAmigoNaoAmigos);
+
+
+
+
+
+        }
+
+        [HttpPost]
+        public List<Amigo> ObterListaDeAmigos()
+        {
+
+            var usuarioBd = _usuarioRepository.GetUsuarioPorEmail(HttpContext.User.Identity.Name);
+
+            var listaAmigos = _amigoRepository.GetAmigosSemImagem(usuarioBd.UsuarioId);
+            if(listaAmigos.Count > 0)
+            {
+                return listaAmigos;
+            }
+            return null;
+
+        }
+
+
     }
 
 

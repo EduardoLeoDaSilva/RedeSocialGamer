@@ -37,7 +37,13 @@ namespace InstaProj.Repositories
             return usuario;
         }
 
-      
+        public Usuario GetUsuarioPorId(int id)
+        {
+            var usuario = _context.Set<Usuario>().Where(user => user.UsuarioId == id).SingleOrDefault();
+            return usuario;
+        }
+
+
 
     }
 }

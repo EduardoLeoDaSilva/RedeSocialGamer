@@ -1,6 +1,8 @@
 ﻿
 $(function () {
     BuscarListaNaoAmigos();
+    buscarListaAmigos();
+    AdicionarAmigoECarregaListaEmTempoReal();
 });
 
 function BuscarListaNaoAmigos() {
@@ -15,7 +17,8 @@ function BuscarListaNaoAmigos() {
 
 function montarListaNaoAmigos(lista) {
 
-        var ulNaoAmigos = $("#ul-lista-nao-amigos");
+    var ulNaoAmigos = $("#ul-lista-nao-amigos");
+    ulNaoAmigos.children().remove();
     lista.forEach(function(user){
 
         var liUser = $("<li>").addClass("collection-item");
@@ -32,10 +35,10 @@ function montarListaNaoAmigos(lista) {
         btnAddAmigo.click(function () {
             $.ajax({
                 url: "AddAmigo",
-                data: JSON.stringify(user.usuarioId),
                 contentType: "application/json",
+                data: JSON.stringify(user.usuarioId),
                 method: "post"
-            }).done(function(response) {
+            }).done(function (response) {
                 ulNaoAmigos.notify("Amigo adicionado ", { className: "success", position: "bottom" });
 
             }).fail(function () {
@@ -52,4 +55,61 @@ function montarListaNaoAmigos(lista) {
         ulNaoAmigos.append(liUser);
     });
 
+}
+
+function buscarListaAmigos(){
+
+
+    $.ajax({
+        url: "ObterListaDeAmigos",
+        contentType: "application/json",
+        method: "post"
+    }).done(function (response) {
+        if (response != null && response != undefined) {
+        montarListaAmigos(response);
+
+        }
+        }).fail(function (response) {
+            $("#lista-amigos").notify("Erro", {className: "error", position:"bottom"});
+    });
+
+}
+
+function montarListaAmigos(listaAmigos){
+    var ulAmigos = $("#lista-amigos");
+    ulAmigos.children().remove();
+    listaAmigos.forEach(function (user) {
+
+        var liAmigo = $("<li>");
+        var aBtn = $("<a>");
+        var divRow = $("<div>").addClass("row valign-wrapper");
+        var divCol1 = $("<div>").addClass("col s2");
+        var img = $("<img>").addClass("circle").css("width", "25px", "heigth", "25px").attr("src", "CarregarImagemUsuario/" + user.usuarioAmigo.email);
+        var divCol2 = $("<div>").addClass("col s10");
+        var span = $("<span>").addClass("black-text").text(user.usuarioAmigo.nome);
+
+        divCol2.append(span);
+        divCol1.append(img);
+        divRow.append(divCol1, divCol2);
+        aBtn.append(divRow);
+        liAmigo.append(aBtn);
+        ulAmigos.append(liAmigo);
+
+    });
+
+}
+
+
+function AdicionarAmigoECarregaListaEmTempoReal() {
+    connection.on("AoAdicionarAmigo", function (response) {
+        console.log(response);
+        montarListaAmigos(response);
+    });
+
+    connection.on("AtualizarListaNaoAmigos", function (response) {
+        console.log(response);
+        montarListaNaoAmigos(response);
+        $("#ul-lista-nao-amigos").notify("Amigo Adicionado", { className: "success" });
+    });
+    
 }

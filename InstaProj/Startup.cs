@@ -104,7 +104,6 @@ namespace InstaProj
             app.UseSignalR(routes =>
             {
             routes.MapHub<PostagemHub>("/postagemHub");
-                
             });
             app.UseMvc(routes =>
             {

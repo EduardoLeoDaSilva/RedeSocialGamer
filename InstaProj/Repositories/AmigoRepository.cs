@@ -18,9 +18,19 @@ namespace InstaProj.Repositories
             _context = context;
         }
 
-        public List<Amigo> GetAmigos(int idUsuario)
+        public List<Amigo> GetAmigosSemImagem(int idUsuario)
         {
-            var amigos = _context.Set<Amigo>().Where(a => a.Usuario.UsuarioId == idUsuario).ToList();
+            var amigos = _context.Set<Amigo>().Include(a => a.Usuario).Include(a => a.UsuarioAmigo).Where(a => a.Usuario.UsuarioId == idUsuario).ToList();
+            var listaAmigosSemFoto = new List<Amigo>();
+            if(amigos.Count > 0)
+            {
+                foreach (var item in amigos)
+                {
+                    listaAmigosSemFoto.Add(new Amigo(new Usuario(item.UsuarioAmigo.UsuarioId,item.UsuarioAmigo.Nome, item.UsuarioAmigo.Sexo, item.UsuarioAmigo.Email, null,null,item.UsuarioAmigo.Nascimento),
+                        new Usuario(item.Usuario.UsuarioId, item.Usuario.Nome, item.Usuario.Sexo, item.Usuario.Email, null, null, item.Usuario.Nascimento)));
+                }
+                return listaAmigosSemFoto;
+            }
             return amigos;
         }
 
@@ -42,8 +52,9 @@ namespace InstaProj.Repositories
             if(usuarioAAdd != null && userQEnviouSolicitacao != null)
             {
                 var amigo = new Amigo(usuarioAAdd, userQEnviouSolicitacao);
-                
-                _context.Add(amigo);
+                var amigo2 = new Amigo(userQEnviouSolicitacao, usuarioAAdd);
+
+                _context.Set<Amigo>().AddRange(amigo, amigo2);
                 _context.SaveChanges();
             }
         }

@@ -5,7 +5,8 @@ $(document).ready(function () {
     carregaImagensAenviar();
 });
 
-
+var connection = new signalR.HubConnectionBuilder().withUrl("/postagemHub").build();
+connection.start();
 //Faz uma requisao ajax enviando dados da nova postagem
 function enviarNovaPostagem() {
     $("#btn-postar").click(function () {
@@ -29,8 +30,6 @@ function enviarNovaPostagem() {
         }
     });
 }
-
-
 function validarFormPostagem() {
     var textoTextArea = $("#textarea2");
     var inputFile = $("#imagemPostagem");
@@ -51,11 +50,7 @@ function validarFormPostagem() {
     }
 
     return true;
-
-
 }
-
-
 function carregaImagensAenviar() {
 
 
@@ -86,15 +81,9 @@ function carregaImagensAenviar() {
 
 //Inica a comunicacao em tempo real com o servidor(servi�o postagem)
 function inicalizaoTempoReal() {
-    var connection = new signalR.HubConnectionBuilder().withUrl("/postagemHub").build();
-
     connection.on("ReceberPostagem", function (response) {
         console.log(response);
         montarNovaPostagem(response.texto, response.imagens);
-
     });
-
-
-    connection.start();
 }
 

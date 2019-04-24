@@ -5,7 +5,7 @@ namespace InstaProj.Repositories
 {
     public interface IAmigoRepository
     {
-        List<Amigo> GetAmigos(int idUsuario);
+        List<Amigo> GetAmigosSemImagem(int idUsuario);
         List<Usuario> GetUsuarioNaoAmigos(string email);
         void AddAmigo(string email, int id);
     }

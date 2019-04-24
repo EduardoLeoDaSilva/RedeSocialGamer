@@ -8,5 +8,6 @@ namespace InstaProj.Repositories
     {
         Task CadastrarUsuario(UsuarioViewModel usuarioView);
         Usuario GetUsuarioPorEmail(string email);
+        Usuario GetUsuarioPorId(int id);
     }
 }
