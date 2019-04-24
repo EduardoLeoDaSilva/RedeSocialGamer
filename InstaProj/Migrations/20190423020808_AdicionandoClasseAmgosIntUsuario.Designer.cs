@@ -4,14 +4,16 @@ using InstaProj;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace InstaProj.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20190423020808_AdicionandoClasseAmgosIntUsuario")]
+    partial class AdicionandoClasseAmgosIntUsuario
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -27,13 +29,9 @@ namespace InstaProj.Migrations
 
                     b.Property<int?>("UsuarioAmigoUsuarioId");
 
-                    b.Property<int?>("UsuarioId");
-
                     b.HasKey("AmigoId");
 
                     b.HasIndex("UsuarioAmigoUsuarioId");
-
-                    b.HasIndex("UsuarioId");
 
                     b.ToTable("Amigo");
                 });
@@ -119,12 +117,8 @@ namespace InstaProj.Migrations
             modelBuilder.Entity("InstaProj.Models.Entidades.Amigo", b =>
                 {
                     b.HasOne("InstaProj.Models.Entidades.Usuario", "UsuarioAmigo")
-                        .WithMany()
-                        .HasForeignKey("UsuarioAmigoUsuarioId");
-
-                    b.HasOne("InstaProj.Models.Entidades.Usuario", "Usuario")
                         .WithMany("Amigos")
-                        .HasForeignKey("UsuarioId");
+                        .HasForeignKey("UsuarioAmigoUsuarioId");
                 });
 
             modelBuilder.Entity("InstaProj.Models.Entidades.Imagem", b =>

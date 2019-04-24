@@ -24,6 +24,8 @@ namespace InstaProj
         {
             modelBuilder.Entity<Usuario>().HasKey(u => u.UsuarioId);
             modelBuilder.Entity<Usuario>().HasIndex(u => u.Email).IsUnique();
+            modelBuilder.Entity<Usuario>().HasMany(u => u.Amigos).WithOne(a => a.Usuario);
+
             modelBuilder.Entity<Postagem>().HasKey(p => p.PostagemId);
             modelBuilder.Entity<Postagem>().HasOne(p => p.Usuario).WithMany(u => u.Postagens);
             modelBuilder.Entity<Noticias>().Property("Titulo").HasMaxLength(25).IsUnicode(false);

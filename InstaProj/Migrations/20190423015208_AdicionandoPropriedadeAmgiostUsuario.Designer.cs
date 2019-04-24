@@ -4,39 +4,22 @@ using InstaProj;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace InstaProj.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20190423015208_AdicionandoPropriedadeAmgiostUsuario")]
+    partial class AdicionandoPropriedadeAmgiostUsuario
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.2.0-rtm-35687")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("InstaProj.Models.Entidades.Amigo", b =>
-                {
-                    b.Property<int>("AmigoId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("UsuarioAmigoUsuarioId");
-
-                    b.Property<int?>("UsuarioId");
-
-                    b.HasKey("AmigoId");
-
-                    b.HasIndex("UsuarioAmigoUsuarioId");
-
-                    b.HasIndex("UsuarioId");
-
-                    b.ToTable("Amigo");
-                });
 
             modelBuilder.Entity("InstaProj.Models.Entidades.Imagem", b =>
                 {
@@ -105,6 +88,8 @@ namespace InstaProj.Migrations
 
                     b.Property<string>("Sexo");
 
+                    b.Property<int?>("UsuarioId1");
+
                     b.Property<byte[]>("foto");
 
                     b.HasKey("UsuarioId");
@@ -113,18 +98,9 @@ namespace InstaProj.Migrations
                         .IsUnique()
                         .HasFilter("[Email] IS NOT NULL");
 
+                    b.HasIndex("UsuarioId1");
+
                     b.ToTable("Usuarios");
-                });
-
-            modelBuilder.Entity("InstaProj.Models.Entidades.Amigo", b =>
-                {
-                    b.HasOne("InstaProj.Models.Entidades.Usuario", "UsuarioAmigo")
-                        .WithMany()
-                        .HasForeignKey("UsuarioAmigoUsuarioId");
-
-                    b.HasOne("InstaProj.Models.Entidades.Usuario", "Usuario")
-                        .WithMany("Amigos")
-                        .HasForeignKey("UsuarioId");
                 });
 
             modelBuilder.Entity("InstaProj.Models.Entidades.Imagem", b =>
@@ -139,6 +115,13 @@ namespace InstaProj.Migrations
                     b.HasOne("InstaProj.Models.Entidades.Usuario", "Usuario")
                         .WithMany("Postagens")
                         .HasForeignKey("UsuarioId");
+                });
+
+            modelBuilder.Entity("InstaProj.Models.Entidades.Usuario", b =>
+                {
+                    b.HasOne("InstaProj.Models.Entidades.Usuario")
+                        .WithMany("Amigos")
+                        .HasForeignKey("UsuarioId1");
                 });
 #pragma warning restore 612, 618
         }

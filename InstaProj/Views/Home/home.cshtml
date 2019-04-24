@@ -22,7 +22,63 @@
                 </li>
                 <li><a class="subheader">Subheader</a></li>
 
-                <li><a class="waves-effect waves-light btn modal-trigger" href="#modal1">Amigos</a></li>
+                <li><a class="waves-effect waves-light btn modal-trigger" href="#modal1">Procurar Novos Amigos</a></li>
+
+                <ul id="lista-amigos">
+                    <li>
+                        <blockquote>
+                            <h5>Amigos</h5>
+                        </blockquote>
+                    </li>
+                    <li>
+                        <a href="#!">
+                            <div class="row valign-wrapper">
+                                <div class="col s2">
+                                    <img src="images/yuna.jpg" alt="" class="circle responsive-img">
+                                    <!-- notice the "circle" class -->
+                                </div>
+                                <div class="col s10">
+                                    <span class="black-text">
+                                        Edu
+                                    </span>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#!">
+                            <div class="row valign-wrapper">
+                                <div class="col s2">
+                                    <img src="images/yuna.jpg" alt="" class="circle responsive-img">
+                                    <!-- notice the "circle" class -->
+                                </div>
+                                <div class="col s10">
+                                    <span class="black-text">
+                                        Edu
+                                    </span>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#!">
+                            <div class="row valign-wrapper">
+                                <div class="col s2">
+                                    <img src="images/yuna.jpg" alt="" class="circle responsive-img">
+                                    <!-- notice the "circle" class -->
+                                </div>
+                                <div class="col s10">
+                                    <span class="black-text">
+                                        Edu
+                                    </span>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+
+
+
+                </ul>
             </ul>
             <a href="#" data-target="sidebar-principal" class="sidenav-trigger">
                 <i class="material-icons">menu</i>
@@ -65,15 +121,15 @@
                                                         placeholder="Upload one or more files">
                                                 </div>
                                             </div>
-                                           
+
                                             <button class="btn-floating btn-large waves-effect waves-light red"
-                                            id="btn-postar">
-                                            <i class="material-icons">send</i>
-                                        </button>
+                                                id="btn-postar">
+                                                <i class="material-icons">send</i>
+                                            </button>
                                         </div>
-                                            <div class="col 12" id="col-imagens-upload">
-                                            </div>
-                                        
+                                        <div class="col 12" id="col-imagens-upload">
+                                        </div>
+
                                     </form>
                                 </div>
                             </div>
@@ -120,12 +176,14 @@
     <!-- Modal Structure -->
     <div id="modal1" class="modal bottom-sheet">
         <div class="modal-content">
-            <h4>Modal Header</h4>
-            <p>A bunch of text</p>
-        </div>
-        <div class="modal-footer">
-            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
-        </div>
+            <h4>Usuarios</h4>
+            <ul class="collection" id="ul-lista-nao-amigos">
+
+        </ul>
+    </div>
+    </div>
+
+    </div>
     </div>
 </main>
 
@@ -134,6 +192,7 @@
 <script src="~/lib/signalr/dist/browser/signalr.js"></script>
 <script src="~/js/homePostagens.js"></script>
 <script src="~/js/HomeFeed.js"></script>
+    <script src="~/js/ListaAmigos.js"></script>
 
 
 

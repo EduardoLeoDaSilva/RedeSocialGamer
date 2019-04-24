@@ -55,6 +55,7 @@ namespace InstaProj.Models.Entidades
         public DateTime Nascimento { get;  set; }
         [DataMember]
         public List<Postagem> Postagens { get; set; }
-
+        [DataMember]
+        public List<Amigo> Amigos { get; set; }
     }
 }

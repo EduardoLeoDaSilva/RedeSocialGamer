@@ -1,6 +1,7 @@
 ﻿using InstaProj.Models.Entidades;
 using InstaProj.Models.extencoes;
 using InstaProj.Models.ViewModels;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -35,6 +36,8 @@ namespace InstaProj.Repositories
             var usuario = _context.Set<Usuario>().Where(user => user.Email == email).SingleOrDefault();
             return usuario;
         }
+
+      
 
     }
 }

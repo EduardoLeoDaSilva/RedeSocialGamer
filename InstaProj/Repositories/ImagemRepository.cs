@@ -27,6 +27,17 @@ namespace InstaProj.Repositories
             throw new ArgumentException("Não foi achado nenhuma postagem com esse id", nameof(idImagem));
         }
 
+        public byte[] GetImagemUsuario(string email)
+        {
+            var imagem = _context.Set<Usuario>().Where(u => u.Email == email).SingleOrDefault().foto;
+            if (imagem != null)
+            {
+                return imagem;
+            }
+
+            throw new ArgumentException("Não foi achado imagem postagem para esse email", nameof(email));
+        }
+
 
     }
 }

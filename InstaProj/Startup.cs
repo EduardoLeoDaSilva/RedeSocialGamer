@@ -74,7 +74,8 @@ namespace InstaProj
             services.AddTransient<INoticiasRepository, NoticiasRepository>();
             services.AddTransient<IPostagenRepository, PostagenRepository>();
              services.AddTransient<IImagemRepository, ImagemRepository>();
-             services.AddSingleton<NotificacaoDbPostagens, NotificacaoDbPostagens>();
+             services.AddTransient<IAmigoRepository, AmigoRepository>();
+            services.AddSingleton<NotificacaoDbPostagens, NotificacaoDbPostagens>();
             services.AddTransient<SqlTableDependency<Postagem>>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddSignalR(o => {
@@ -110,6 +111,7 @@ namespace InstaProj
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Principal}/{action=index}/{id?}");
+
             });
 
 

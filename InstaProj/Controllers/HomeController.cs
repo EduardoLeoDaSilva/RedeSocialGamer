@@ -29,27 +29,23 @@ namespace InstaProj.Controllers
         private readonly IPostagenRepository _postagenRepository;
         private readonly IHubContext<PostagemHub> _hubPostage;
         private readonly IImagemRepository _imagemRepository;
+        private readonly IAmigoRepository _amigoRepository;
         private Usuario usuarioLogado;
-        
+
         public HomeController(IUsuarioRepository usuarioRepository, INoticiasRepository noticiasRepository, IPostagenRepository postagenRepository
-            , IHubContext<PostagemHub> hubPostagem, IImagemRepository imagemRepository)
+            , IHubContext<PostagemHub> hubPostagem, IImagemRepository imagemRepository, IAmigoRepository amigoRepository)
         {
             _usuarioRepository = usuarioRepository;
             _noticiasRepository = noticiasRepository;
             _postagenRepository = postagenRepository;
             _hubPostage = hubPostagem;
             _imagemRepository = imagemRepository;
-
-
-
-
+            _amigoRepository = amigoRepository;
         }
-
-        
 
         public IActionResult Home()
         {
-           
+
             usuarioLogado = _usuarioRepository.GetUsuarioPorEmail(User.Identity.Name);
             return View(usuarioLogado);
         }
@@ -60,10 +56,16 @@ namespace InstaProj.Controllers
             return imagem;
         }
 
-
         public async Task<FileResult> CarregarImagemPostagem([FromRoute]int id)
         {
             var imagemBytes = _imagemRepository.GetImagensPostagem(id);
+            FileContentResult imagem = await ObterImagem(imagemBytes);
+            return imagem;
+        }
+
+        public async Task<FileResult> CarregarImagemUsuario([FromRoute]string id)
+        {
+            var imagemBytes = _imagemRepository.GetImagemUsuario(id);
             FileContentResult imagem = await ObterImagem(imagemBytes);
             return imagem;
         }
@@ -109,19 +111,17 @@ namespace InstaProj.Controllers
                 var postagemViewModel = InsereERecuperaPostagemNova(texto, foto, usuarioLogadoEmail);
 
                 //await hubPostage.Clients.User(userLoggedId).SendAsync("ReceberPostagem", postagemViewModel);
-               await _hubPostage.Clients.All.SendAsync("ReceberPostagem", postagemViewModel);
+                await _hubPostage.Clients.All.SendAsync("ReceberPostagem", postagemViewModel);
             }
             catch (Exception e)
             {
                 await _hubPostage.Clients.All.SendAsync("ReceberErro", e.Message);
 
-                
-            }
 
+            }
             await _hubPostage.Clients.All.SendAsync("ReceberErro", "Ocorreu um erro desconhecido, por favor tente mais tarde!");
 
         }
-
         private PostagemViewModel InsereERecuperaPostagemNova(Microsoft.Extensions.Primitives.StringValues texto, IFormFileCollection foto, string usuarioLogadoEmail)
         {
             var usuario = _usuarioRepository.GetUsuarioPorEmail(usuarioLogadoEmail);
@@ -147,7 +147,44 @@ namespace InstaProj.Controllers
 
             return listaImagens;
         }
+
+        [HttpGet]
+        public List<Usuario> ListarNaoAmigos()
+        {
+
+            var lista = _amigoRepository.GetUsuarioNaoAmigos(HttpContext.User.Identity.Name);
+            if (lista != null)
+            {
+
+                return lista;
+            }
+            return null;
+
+
+        }
+
+        [HttpPost]
+        public string AddAmigo([FromBody]int id)
+        {
+            var email = HttpContext.User.Identity.Name;
+            if (email != null)
+            {
+                try
+                {
+                    _amigoRepository.AddAmigo(email, id);
+                    return "Adiconado com sucesso";
+                }
+                catch (Exception e)
+                {
+
+                    return e.Message;
+                }
+            }
+            return "Ocorreu um erro, tente novamente mais tarde";
+
+
+        }
     }
+
+
 }
-
-
