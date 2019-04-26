@@ -3,6 +3,7 @@ $(document).ready(function () {
     enviarNovaPostagem();
     inicalizaoTempoReal();
     carregaImagensAenviar();
+   
 });
 
 var connection = new signalR.HubConnectionBuilder().withUrl("/postagemHub").build();

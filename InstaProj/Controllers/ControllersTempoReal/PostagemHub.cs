@@ -1,8 +1,10 @@
 ﻿using InstaProj.BancoDados;
 using InstaProj.Models.Entidades;
+using InstaProj.Models.Identity;
 using InstaProj.Models.ViewModels;
 using InstaProj.Repositories;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
@@ -23,10 +25,13 @@ namespace InstaProj.Controllers.ControllersTempoReal
         private readonly IConfiguration configuration;
         private readonly SqlTableDependency<Postagem> notificaBanco;
         private readonly IPostagenRepository postagenRepository;
+        private readonly UserManager<UsuarioIdentity> _userManager;
+        private readonly IUsuarioRepository _usuarioRepository;
         private ApplicationContext context;
         private  IHubCallerClients Clientes;
         private HubCallerContext Contexto;
-        public PostagemHub(IPostagenRepository postagenRepository, NotificacaoDbPostagens notificaBanco, IConfiguration configuration, ApplicationContext context)
+        public PostagemHub(IPostagenRepository postagenRepository, NotificacaoDbPostagens notificaBanco, IConfiguration configuration, ApplicationContext context,
+            UserManager<UsuarioIdentity> userManager, IUsuarioRepository usuarioRepository)
         {
             this.postagenRepository = postagenRepository;
             this.notificaBanco = notificaBanco;
@@ -34,7 +39,8 @@ namespace InstaProj.Controllers.ControllersTempoReal
             this.configuration = configuration;
             //notificaBanco.Start();
             this.context = context;
-            
+            _userManager = userManager;
+            _usuarioRepository = usuarioRepository;
         }
 
         public override Task OnConnectedAsync()
@@ -61,7 +67,19 @@ namespace InstaProj.Controllers.ControllersTempoReal
             await Clients.User(Context.UserIdentifier).SendAsync("ReceberPostagem", userIdentifier); 
         }
 
-        
 
+        public async Task EnviarMensagem(string email, string mensagem)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            var usuarioConectado = _usuarioRepository.GetUsuarioPorEmail(Context.User.Identity.Name);
+            await Clients.Users(user.Id).SendAsync("ReceberMensagem", usuarioConectado, mensagem);
+        }
+        
+        public async Task VerificarDigitacao(string email , string msg)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            var usuarioConectado = _usuarioRepository.GetUsuarioPorEmail(Context.User.Identity.Name);
+            await Clients.Users(user.Id).SendAsync("ReceberDigitacao", usuarioConectado, msg);
+        }
     }
 }

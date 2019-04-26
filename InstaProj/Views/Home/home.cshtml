@@ -7,20 +7,16 @@
                 <li>
                     <div class="user-view">
                         <div class="background">
-                            <img
-                                src="https://i1.wp.com/www.wallpapersbyte.com/wp-content/uploads/2015/07/Counter-Strike-Global-Offensive-Logo-Black-Soldier-Gun-White-Text-Symbol-Valve-WallpapersByte-com-2560x1600.jpg?resize=300%2C160&ssl=1">
+                            <img src="https://i1.wp.com/www.wallpapersbyte.com/wp-content/uploads/2015/07/Counter-Strike-Global-Offensive-Logo-Black-Soldier-Gun-White-Text-Symbol-Valve-WallpapersByte-com-2560x1600.jpg?resize=300%2C160&ssl=1">
                         </div>
                         <a href="#user"><img class="circle" src="/Home/CarregarImagemPerfil"></a>
                         <a href="#name"><span class="white-text name">@Model.Nome</span></a>
                         <a href="#email"><span class="white-text email">@Model.Email</span></a>
                     </div>
                 </li>
-                <li><a href="#!">Notificações <span class="new badge">4</span></a> </li>
-                <li><a href="#!">Second Link</a></li>
                 <li>
                     <div class="divider"></div>
                 </li>
-                <li><a class="subheader">Subheader</a></li>
 
                 <li><a class="waves-effect waves-light btn modal-trigger" href="#modal1">Procurar Novos Amigos</a></li>
 
@@ -57,7 +53,7 @@
                                         <div class="row">
                                             <div class="input-field col s12">
                                                 <textarea id="textarea2" name="texto" class="materialize-textarea"
-                                                    data-length="120"></textarea>
+                                                          data-length="120"></textarea>
                                                 <label for="textarea2">Mensagem</label>
                                             </div>
                                         </div>
@@ -70,12 +66,12 @@
                                                 </div>
                                                 <div class="file-path-wrapper">
                                                     <input class="file-path validate" type="text"
-                                                        placeholder="Upload one or more files">
+                                                           placeholder="Upload one or more files">
                                                 </div>
                                             </div>
 
                                             <button class="btn-floating btn-large waves-effect waves-light red"
-                                                id="btn-postar">
+                                                    id="btn-postar">
                                                 <i class="material-icons">send</i>
                                             </button>
                                         </div>
@@ -91,32 +87,7 @@
             </div>
             <div class="container centered" id="container-feed">
 
-                <div class="col s8 offset-s2">
-                    <div class="card feed">
-                        <div class="card-image">
-                            <img src="~/images/MIisA6K.jpg">
-                            <span class="card-title">Card Title</span>
-                        </div>
-                        <div class="card-content">
-                            <p>
-                                I am a very simple card. I am good at containing small bits of information. I am
-                                convenient because I require little markup to use effectively.
-                            </p>
-                            <button class="btn-floating btn-large waves-effect waves-light blue">
-                                <i class="material-icons">thumb_up</i>
-                            </button><span>0</span>
-                            <button class="btn-floating btn-large waves-effect waves-light green">
-                                <i class="material-icons">tag_faces</i>
-                            </button><span>0</span>
-                            <span></span>
-                        </div>
-                        <div class="card-action">
-                        </div>
-                        <div class="card-action">
-                            <input type="text"> <button>Enviar</button>
-                        </div>
-                    </div>
-                </div>
+
             </div>
         </div>
     </div>
@@ -129,14 +100,12 @@
     <div id="modal1" class="modal bottom-sheet">
         <div class="modal-content">
             <h4>Usuarios</h4>
-            <ul class="collection" id="ul-lista-nao-amigos">
-
-        </ul>
-    </div>
+            <ul class="collection" id="ul-lista-nao-amigos"></ul>
+        </div>
     </div>
 
-    </div>
-    </div>
+
+
 </main>
 
 @section scripts{

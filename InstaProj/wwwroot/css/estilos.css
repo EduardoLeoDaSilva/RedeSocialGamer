@@ -82,9 +82,28 @@ img.responsive-img {
     background-color: #ffffff;
 }
 .imagemLida{
-    width: 100px
+    width: 100px;
 }
 
 .imgdupload{
     border-radius: 10px;
+}
+
+.msg-enviada {
+    float: right;
+    margin-right: 10px;
+}
+
+.forchat {
+    height: 35px;
+    width: 600px;
+    float: left;
+}
+
+.collection .collection-item {
+    background-color: #fafafa;
+    line-height: 1.5rem;
+    padding: 10px 20px;
+    margin: 0;
+    border-bottom: 1px solid #ffffff;
 }
