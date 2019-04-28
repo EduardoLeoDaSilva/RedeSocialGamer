@@ -41,7 +41,13 @@ namespace InstaProj.Repositories
             var usuarios = _context.Set<Usuario>().Include(u => u.Amigos).ThenInclude(a => a.UsuarioAmigo).Where(u => u.Email != email).ToList();
             var listaDeAmigos = usuario.Amigos.Select(p => p.UsuarioAmigo).ToList();
             var listaNaoAmigos = usuarios.Except(listaDeAmigos).ToList();
-            return listaNaoAmigos;
+            var listaNaoAmigosSemImagemPerfil = new List<Usuario>();
+            foreach (var u in listaNaoAmigos)
+            {
+                var user = new Usuario(u.UsuarioId,u.Nome,u.Sexo,u.Email, null,null, u.Nascimento);
+                listaNaoAmigosSemImagemPerfil.Add(user);
+            }
+            return listaNaoAmigosSemImagemPerfil;
         }
 
 

@@ -2,8 +2,12 @@
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
+    "iis": {
+      "applicationUrl": "http://localhost/InstaProj",
+      "sslPort": 0
+    },
     "iisExpress": {
-      "applicationUrl": "http://localhost:52144/",
+      "applicationUrl": "http://localhost:52146/",
       "sslPort": 0
     }
   },
@@ -21,7 +25,10 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "http://localhost:52145/"
+      "applicationUrl": "http://192.168.1.140:52145/"
+    },
+    "newProfile1": {
+      "commandName": "IISExpress"
     }
   }
 }

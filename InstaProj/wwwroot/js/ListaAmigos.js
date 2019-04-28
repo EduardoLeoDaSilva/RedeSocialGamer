@@ -8,11 +8,14 @@ $(function () {
 
 function BuscarListaNaoAmigos() {
 
-    $.get("ListarNaoAmigos", function (response) {
-        if (response !== null) {
+    $.get("ListarNaoAmigos",function (response) {
+        if (response != null) {
         montarListaNaoAmigos(response);
         }
-    });
+    }).catch(function (response) {
+        console.log(response);
+
+        });
 
 }
 

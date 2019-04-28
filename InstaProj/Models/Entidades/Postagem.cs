@@ -32,6 +32,9 @@ namespace InstaProj.Models.Entidades
         public List<Imagem> Imagens { get; private set; }
         [DataMember]
         public string Texto { get; private set; }
+        [DataMember]
+        public List<Comentario> Comentarios { get; private set; }
+
 
     }
 }

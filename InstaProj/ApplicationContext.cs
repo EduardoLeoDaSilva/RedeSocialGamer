@@ -31,6 +31,8 @@ namespace InstaProj
             modelBuilder.Entity<Noticias>().Property("Titulo").HasMaxLength(25).IsUnicode(false);
             modelBuilder.Entity<Usuario>().HasMany(u => u.Postagens).WithOne(p => p.Usuario);
             modelBuilder.Entity<Postagem>().HasMany(p => p.Imagens).WithOne(i => i.Postagem);
+            modelBuilder.Entity<Postagem>().HasMany(p => p.Comentarios).WithOne(c => c.Postagem);
+            modelBuilder.Entity<Comentario>().HasOne(p => p.UsuarioAutor);
             //modelBuilder.Entity<Feed>().HasKey(f => f.FeedId);
             //modelBuilder.Entity<Feed>().HasMany(f => f.Postagens).WithOne(p => p.Feed).IsRequired();
         }
