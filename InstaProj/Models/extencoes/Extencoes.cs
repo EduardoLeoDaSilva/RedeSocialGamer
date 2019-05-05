@@ -56,7 +56,7 @@ namespace InstaProj.Models.extencoes
                     listaImageLink.Add($"CarregarImagemPostagem/{ imagemLink.ImagemId}");
                 }
 
-                var viewModel = new PostagemViewModel(postagem.PostagemId, listaImageLink, postagem.Texto);
+                var viewModel = new PostagemViewModel(postagem.PostagemId, listaImageLink, postagem.Texto, postagem.Comentarios, postagem.Likes);
                 return viewModel;
             }
             throw new NullReferenceException("Objeto null, o objeto postagem não pode ser nulo");

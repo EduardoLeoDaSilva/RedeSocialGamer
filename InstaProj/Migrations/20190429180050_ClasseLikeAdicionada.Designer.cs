@@ -4,14 +4,16 @@ using InstaProj;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace InstaProj.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20190429180050_ClasseLikeAdicionada")]
+    partial class ClasseLikeAdicionada
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,10 +46,6 @@ namespace InstaProj.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("ComentarioData");
-
-                    b.Property<string>("ComentarioTexto");
-
                     b.Property<int?>("PostagemId");
 
                     b.Property<int?>("UsuarioAutorUsuarioId");
@@ -76,19 +74,6 @@ namespace InstaProj.Migrations
                     b.HasIndex("PostagemId");
 
                     b.ToTable("Imagem");
-                });
-
-            modelBuilder.Entity("InstaProj.Models.Entidades.Like", b =>
-                {
-                    b.Property<int>("PostagemId");
-
-                    b.Property<int>("UsuarioAutorId");
-
-                    b.HasKey("PostagemId", "UsuarioAutorId");
-
-                    b.HasIndex("UsuarioAutorId");
-
-                    b.ToTable("Like");
                 });
 
             modelBuilder.Entity("InstaProj.Models.Entidades.Noticias", b =>
@@ -179,19 +164,6 @@ namespace InstaProj.Migrations
                     b.HasOne("InstaProj.Models.Entidades.Postagem", "Postagem")
                         .WithMany("Imagens")
                         .HasForeignKey("PostagemId");
-                });
-
-            modelBuilder.Entity("InstaProj.Models.Entidades.Like", b =>
-                {
-                    b.HasOne("InstaProj.Models.Entidades.Postagem", "Postagem")
-                        .WithMany("Likes")
-                        .HasForeignKey("PostagemId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("InstaProj.Models.Entidades.Usuario", "UsuarioAutor")
-                        .WithMany()
-                        .HasForeignKey("UsuarioAutorId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("InstaProj.Models.Entidades.Postagem", b =>

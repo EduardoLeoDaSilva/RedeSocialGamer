@@ -1,4 +1,5 @@
 ﻿using InstaProj.Models.Entidades;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,6 +37,17 @@ namespace InstaProj.Repositories
             _context.Set<Postagem>().Add(postagem);
             _context.SaveChanges();
             return postagem;
+        }
+
+        public List<Postagem> GetPostagens()
+        {
+            var postagens = _context.Set<Postagem>().Include(p => p.Usuario).Include(p => p.Comentarios).Include(p => p.Likes).Include(p => p.Imagens).ToList();
+
+            if(postagens != null)
+            {
+                return postagens;
+            }
+            return null;
         }
     }
 }

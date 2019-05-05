@@ -1,4 +1,5 @@
 ﻿using InstaProj.Models.Entidades;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace InstaProj.Repositories
@@ -8,5 +9,6 @@ namespace InstaProj.Repositories
         Postagem GetUltimaPostagem();
         Postagem GetPostagemById(int id);
         Postagem AddPostagem(Postagem postagem);
+        List<Postagem> GetPostagens();
     }
 }

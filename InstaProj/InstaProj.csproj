@@ -5,6 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20190429211200_LikesTeste.cs" />
+    <Compile Remove="Migrations\20190429211200_LikesTeste.Designer.cs" />
+    <Compile Remove="Migrations\20190501222835_rel1p1COmentarioPostagem.cs" />
+    <Compile Remove="Migrations\20190501222835_rel1p1COmentarioPostagem.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="Views\Principal\home.cshtml" />
     <Content Remove="Views\Principal\index.cshtml" />
   </ItemGroup>

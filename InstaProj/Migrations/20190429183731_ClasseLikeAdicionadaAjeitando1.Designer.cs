@@ -4,14 +4,16 @@ using InstaProj;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace InstaProj.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20190429183731_ClasseLikeAdicionadaAjeitando1")]
+    partial class ClasseLikeAdicionadaAjeitando1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,10 +45,6 @@ namespace InstaProj.Migrations
                     b.Property<int>("ComentarioId")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("ComentarioData");
-
-                    b.Property<string>("ComentarioTexto");
 
                     b.Property<int?>("PostagemId");
 
@@ -80,11 +78,15 @@ namespace InstaProj.Migrations
 
             modelBuilder.Entity("InstaProj.Models.Entidades.Like", b =>
                 {
+                    b.Property<int>("LikeId");
+
                     b.Property<int>("PostagemId");
 
                     b.Property<int>("UsuarioAutorId");
 
-                    b.HasKey("PostagemId", "UsuarioAutorId");
+                    b.HasKey("LikeId", "PostagemId", "UsuarioAutorId");
+
+                    b.HasIndex("PostagemId");
 
                     b.HasIndex("UsuarioAutorId");
 
@@ -184,7 +186,7 @@ namespace InstaProj.Migrations
             modelBuilder.Entity("InstaProj.Models.Entidades.Like", b =>
                 {
                     b.HasOne("InstaProj.Models.Entidades.Postagem", "Postagem")
-                        .WithMany("Likes")
+                        .WithMany()
                         .HasForeignKey("PostagemId")
                         .OnDelete(DeleteBehavior.Cascade);
 

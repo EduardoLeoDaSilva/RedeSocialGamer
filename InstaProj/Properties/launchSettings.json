@@ -25,7 +25,7 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "http://192.168.1.140:52145/"
+      "applicationUrl": "http://localhost:52145/"
     },
     "newProfile1": {
       "commandName": "IISExpress"

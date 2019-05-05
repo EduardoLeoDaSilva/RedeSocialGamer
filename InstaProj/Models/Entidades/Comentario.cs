@@ -15,7 +15,10 @@ namespace InstaProj.Models.Entidades
         public Postagem Postagem { get; private set; }
         [DataMember]
         public Usuario UsuarioAutor { get; private set; }
-
+        [DataMember]
+        public string ComentarioTexto { get; private set; }
+        [DataMember]
+        public DateTime ComentarioData { get; set; }
         public Comentario()
         {
 
@@ -27,11 +30,16 @@ namespace InstaProj.Models.Entidades
             UsuarioAutor = usuarioAutor;
         }
 
-        public Comentario(int comentarioId, Postagem postagem, Usuario usuarioAutor)
+        public Comentario(Postagem postagem, Usuario usuarioAutor, string comentarioTexto)
         {
-            ComentarioId = comentarioId;
             Postagem = postagem;
             UsuarioAutor = usuarioAutor;
+            ComentarioTexto = comentarioTexto;
+        }
+
+        public Comentario(Postagem postagem, Usuario usuarioAutor, string comentarioTexto, DateTime comentarioData) : this(postagem, usuarioAutor, comentarioTexto)
+        {
+            ComentarioData = comentarioData;
         }
     }
 }

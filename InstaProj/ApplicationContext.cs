@@ -33,6 +33,12 @@ namespace InstaProj
             modelBuilder.Entity<Postagem>().HasMany(p => p.Imagens).WithOne(i => i.Postagem);
             modelBuilder.Entity<Postagem>().HasMany(p => p.Comentarios).WithOne(c => c.Postagem);
             modelBuilder.Entity<Comentario>().HasOne(p => p.UsuarioAutor);
+            modelBuilder.Entity<Comentario>().HasOne(p => p.Postagem);
+
+            modelBuilder.Entity<Comentario>().HasKey(c => c.ComentarioId);
+            modelBuilder.Entity<Like>().HasKey(l => new { l.PostagemId,l.UsuarioAutorId });
+            modelBuilder.Entity<Like>().HasOne(p => p.UsuarioAutor);
+            modelBuilder.Entity<Like>().HasOne(p => p.Postagem);
             //modelBuilder.Entity<Feed>().HasKey(f => f.FeedId);
             //modelBuilder.Entity<Feed>().HasMany(f => f.Postagens).WithOne(p => p.Feed).IsRequired();
         }

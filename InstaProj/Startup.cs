@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 using TableDependency.SqlClient;
 
 namespace InstaProj
@@ -73,11 +74,14 @@ namespace InstaProj
             services.AddTransient<IAutenticaoRepository, AutenticaoRepository>();
             services.AddTransient<INoticiasRepository, NoticiasRepository>();
             services.AddTransient<IPostagenRepository, PostagenRepository>();
-             services.AddTransient<IImagemRepository, ImagemRepository>();
-             services.AddTransient<IAmigoRepository, AmigoRepository>();
+            services.AddTransient<ILikeRepository, LikeRepository>();
+            services.AddTransient<IImagemRepository, ImagemRepository>();
+            services.AddTransient<IComentarioRepository, ComentarioRepository>();
+            services.AddTransient<IAmigoRepository, AmigoRepository>();
             services.AddSingleton<NotificacaoDbPostagens, NotificacaoDbPostagens>();
             services.AddTransient<SqlTableDependency<Postagem>>();
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+                .AddJsonOptions(options => options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
             services.AddSignalR(o => {
             }).AddJsonProtocol();
 

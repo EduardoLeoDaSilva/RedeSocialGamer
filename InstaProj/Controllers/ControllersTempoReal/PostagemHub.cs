@@ -24,16 +24,18 @@ namespace InstaProj.Controllers.ControllersTempoReal
     {
         private readonly IConfiguration configuration;
         private readonly SqlTableDependency<Postagem> notificaBanco;
-        private readonly IPostagenRepository postagenRepository;
+        private readonly IPostagenRepository _postagenRepository;
         private readonly UserManager<UsuarioIdentity> _userManager;
         private readonly IUsuarioRepository _usuarioRepository;
+        private readonly ILikeRepository _likeRepository;
+        private readonly IComentarioRepository _comentarioRepository;
         private ApplicationContext context;
         private  IHubCallerClients Clientes;
         private HubCallerContext Contexto;
         public PostagemHub(IPostagenRepository postagenRepository, NotificacaoDbPostagens notificaBanco, IConfiguration configuration, ApplicationContext context,
-            UserManager<UsuarioIdentity> userManager, IUsuarioRepository usuarioRepository)
+            UserManager<UsuarioIdentity> userManager, IUsuarioRepository usuarioRepository, ILikeRepository likeRepository, IComentarioRepository comentarioRepository)
         {
-            this.postagenRepository = postagenRepository;
+            this._postagenRepository = postagenRepository;
             this.notificaBanco = notificaBanco;
             //notificaBanco.OnChanged += NotificaBanco_OnChanged;
             this.configuration = configuration;
@@ -41,15 +43,10 @@ namespace InstaProj.Controllers.ControllersTempoReal
             this.context = context;
             _userManager = userManager;
             _usuarioRepository = usuarioRepository;
+            _likeRepository = likeRepository;
+            _comentarioRepository = comentarioRepository;
         }
 
-        public override Task OnConnectedAsync()
-        {
-            //Clientes = this.Clients;
-            //Contexto = this.Context;
-           
-            return base.OnConnectedAsync();
-        }
         //private async void NotificaBanco_OnChanged(object sender, TableDependency.SqlClient.Base.EventArgs.RecordChangedEventArgs<Postagem> e)
         //{
         //    var dbContextOptions = new DbContextOptionsBuilder<ApplicationContext>().UseSqlServer(configuration.GetConnectionString("Default"));
@@ -80,6 +77,57 @@ namespace InstaProj.Controllers.ControllersTempoReal
             var user = await _userManager.FindByEmailAsync(email);
             var usuarioConectado = _usuarioRepository.GetUsuarioPorEmail(Context.User.Identity.Name);
             await Clients.Users(user.Id).SendAsync("ReceberDigitacao", usuarioConectado, msg);
+        }
+
+        public async Task SendALike(int idPostagem)
+        {
+            var userQDeuOLike = _usuarioRepository.GetUsuarioPorEmail(Context.User.Identity.Name);
+            var postagem = _postagenRepository.GetPostagemById(idPostagem);
+            var like= new Like(postagem, userQDeuOLike);
+            try
+            {
+                _likeRepository.AddLike(like);
+                await Clients.All.SendAsync("ReceberLikeReload", new { like.PostagemId,like.UsuarioAutorId});
+
+            }
+            catch (Exception E)
+            {
+                if(E.HResult == -2146233088)
+                {
+                        _likeRepository.RemoveLike(postagem.PostagemId, userQDeuOLike.UsuarioId); 
+                   await Clients.All.SendAsync("ReceberLikeReload", new { like.PostagemId, like.UsuarioAutorId, isLiked= true });
+                }
+                
+            }
+
+
+
+       
+        }
+
+        public async Task SendComentario(int idPostagem, string texto)
+        {
+            var userQEnvouComent = _usuarioRepository.GetUsuarioPorEmail(Context.User.Identity.Name);
+            var postagem = _postagenRepository.GetPostagemById(idPostagem);
+            var comentario = new Comentario(postagem, userQEnvouComent, texto, DateTime.Now);
+            try
+            {
+               var comentarioSalvo = _comentarioRepository.AddComentario(comentario);
+                
+                ///Setando alguns valores nulos que nao serao utilizados na view para tornar o transporte mais rapido
+                comentarioSalvo.UsuarioAutor.foto = null;
+                comentario.Postagem.SetImagens(null);
+                //------------
+
+                await Clients.All.SendAsync("ReceberComentario",comentarioSalvo);
+            }
+            catch (Exception E)
+            {
+                await Clients.All.SendAsync("ReceberComentario", E.Message);
+
+
+            }
+
         }
     }
 }

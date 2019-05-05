@@ -3,7 +3,7 @@ $(document).ready(function () {
     enviarNovaPostagem();
     inicalizaoTempoReal();
     carregaImagensAenviar();
-   
+    //ReceberLike();
 });
 
 var connection = new signalR.HubConnectionBuilder().withUrl("/postagemHub").build();
@@ -84,7 +84,7 @@ function carregaImagensAenviar() {
 function inicalizaoTempoReal() {
     connection.on("ReceberPostagem", function (response) {
         console.log(response);
-        montarNovaPostagem(response.texto, response.imagens);
+        montarNovaPostagem(response);
     });
 }
 

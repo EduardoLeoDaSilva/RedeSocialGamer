@@ -19,6 +19,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using InstaProj.Models.Identity;
+using Microsoft.Extensions.Primitives;
 
 namespace InstaProj.Controllers
 {
@@ -127,7 +128,7 @@ namespace InstaProj.Controllers
             await _hubPostage.Clients.All.SendAsync("ReceberErro", "Ocorreu um erro desconhecido, por favor tente mais tarde!");
 
         }
-        private PostagemViewModel InsereERecuperaPostagemNova(Microsoft.Extensions.Primitives.StringValues texto, IFormFileCollection foto, string usuarioLogadoEmail)
+        private PostagemViewModel InsereERecuperaPostagemNova(StringValues texto, IFormFileCollection foto, string usuarioLogadoEmail)
         {
             var usuario = _usuarioRepository.GetUsuarioPorEmail(usuarioLogadoEmail);
             var imagemBytes = foto.toListaBytes();
@@ -231,6 +232,22 @@ namespace InstaProj.Controllers
             }
             return null;
 
+        }
+
+        public List<PostagemViewModel> GetPostagens()
+        {
+            var postagens = _postagenRepository.GetPostagens();
+            var postagensViewModel = new List<PostagemViewModel>();
+            if(postagens != null)
+            {
+                foreach (var postagem in postagens)
+                {
+                    postagensViewModel.Add(postagem.toViewModel());
+
+                }
+                return postagensViewModel;
+            }
+            throw new Exception("Sem postagens no Banco");
         }
 
 

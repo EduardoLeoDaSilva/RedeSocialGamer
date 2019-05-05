@@ -4,14 +4,16 @@ using InstaProj;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace InstaProj.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20190501163838_adicionado_propriedade_texto_comentarios")]
+    partial class adicionado_propriedade_texto_comentarios
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,15 +46,15 @@ namespace InstaProj.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("ComentarioData");
-
-                    b.Property<string>("ComentarioTexto");
+                    b.Property<int?>("ComentarioTextoUsuarioId");
 
                     b.Property<int?>("PostagemId");
 
                     b.Property<int?>("UsuarioAutorUsuarioId");
 
                     b.HasKey("ComentarioId");
+
+                    b.HasIndex("ComentarioTextoUsuarioId");
 
                     b.HasIndex("PostagemId");
 
@@ -165,6 +167,10 @@ namespace InstaProj.Migrations
 
             modelBuilder.Entity("InstaProj.Models.Entidades.Comentario", b =>
                 {
+                    b.HasOne("InstaProj.Models.Entidades.Usuario", "ComentarioTexto")
+                        .WithMany()
+                        .HasForeignKey("ComentarioTextoUsuarioId");
+
                     b.HasOne("InstaProj.Models.Entidades.Postagem", "Postagem")
                         .WithMany("Comentarios")
                         .HasForeignKey("PostagemId");
