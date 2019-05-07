@@ -5,6 +5,10 @@ VisualStudioVersion = 15.0.28307.489
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InstaProj", "InstaProj\InstaProj.csproj", "{FF2B215E-D35D-4FF7-8F32-4EF99A6290BD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthProvider", "AuthProvider\AuthProvider.csproj", "{275B9D29-1ABD-4374-A51E-F64DB331CABA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi", "WebApi\WebApi.csproj", "{77C518F4-8E53-46CF-9213-3F515A3ECACD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{FF2B215E-D35D-4FF7-8F32-4EF99A6290BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF2B215E-D35D-4FF7-8F32-4EF99A6290BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF2B215E-D35D-4FF7-8F32-4EF99A6290BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{275B9D29-1ABD-4374-A51E-F64DB331CABA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{275B9D29-1ABD-4374-A51E-F64DB331CABA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{275B9D29-1ABD-4374-A51E-F64DB331CABA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{275B9D29-1ABD-4374-A51E-F64DB331CABA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77C518F4-8E53-46CF-9213-3F515A3ECACD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77C518F4-8E53-46CF-9213-3F515A3ECACD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77C518F4-8E53-46CF-9213-3F515A3ECACD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77C518F4-8E53-46CF-9213-3F515A3ECACD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

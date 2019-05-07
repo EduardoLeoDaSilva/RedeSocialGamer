@@ -30,31 +30,35 @@ namespace InstaProj.Controllers
         private readonly IUsuarioRepository _usuarioRepository;
         private readonly INoticiasRepository _noticiasRepository;
         private readonly IPostagenRepository _postagenRepository;
-        private readonly IHubContext<PostagemHub> _hubPostage;
+        private readonly IHubContext<PostagemHub> _hubPostagem;
         private readonly IImagemRepository _imagemRepository;
         private readonly IAmigoRepository _amigoRepository;
-        private Usuario usuarioLogado;
+        private readonly IUsuarioLogadoRepository _usuarioLogado;
+      //  private Usuario usuarioLogado;
         private readonly UserManager<UsuarioIdentity> _userManager;
 
         public HomeController(IUsuarioRepository usuarioRepository, INoticiasRepository noticiasRepository, IPostagenRepository postagenRepository
             , IHubContext<PostagemHub> hubPostagem, IImagemRepository imagemRepository, IAmigoRepository amigoRepository,
-            UserManager<UsuarioIdentity> userManager)
+            UserManager<UsuarioIdentity> userManager, IUsuarioLogadoRepository usuarioLogado)
         {
             _usuarioRepository = usuarioRepository;
             _noticiasRepository = noticiasRepository;
             _postagenRepository = postagenRepository;
-            _hubPostage = hubPostagem;
+            _hubPostagem = hubPostagem;
             _imagemRepository = imagemRepository;
             _amigoRepository = amigoRepository;
             _userManager = userManager;
+            _usuarioLogado = usuarioLogado;
         }
 
         public IActionResult Home()
         {
 
-            usuarioLogado = _usuarioRepository.GetUsuarioPorEmail(User.Identity.Name);
+            Usuario usuarioLogado = _usuarioRepository.GetUsuarioPorEmail(User.Identity.Name);
+
             return View(usuarioLogado);
         }
+
 
         public async Task<FileResult> CarregarImagemPerfil()
         {
@@ -117,15 +121,15 @@ namespace InstaProj.Controllers
                 var postagemViewModel = InsereERecuperaPostagemNova(texto, foto, usuarioLogadoEmail);
 
                 //await hubPostage.Clients.User(userLoggedId).SendAsync("ReceberPostagem", postagemViewModel);
-                await _hubPostage.Clients.All.SendAsync("ReceberPostagem", postagemViewModel);
+                await _hubPostagem.Clients.All.SendAsync("ReceberPostagem", postagemViewModel);
             }
             catch (Exception e)
             {
-                await _hubPostage.Clients.All.SendAsync("ReceberErro", e.Message);
+                await _hubPostagem.Clients.All.SendAsync("ReceberErro", e.Message);
 
 
             }
-            await _hubPostage.Clients.All.SendAsync("ReceberErro", "Ocorreu um erro desconhecido, por favor tente mais tarde!");
+            await _hubPostagem.Clients.All.SendAsync("ReceberErro", "Ocorreu um erro desconhecido, por favor tente mais tarde!");
 
         }
         private PostagemViewModel InsereERecuperaPostagemNova(StringValues texto, IFormFileCollection foto, string usuarioLogadoEmail)
@@ -208,10 +212,10 @@ namespace InstaProj.Controllers
             var usuarioAmigoIdentity = await _userManager.FindByEmailAsync(usuarioAmigo.Email);
             var usuarioAmigoId = usuarioAmigoIdentity.Id;
 
-            await _hubPostage.Clients.User(idUsuarioConectado).SendAsync("AoAdicionarAmigo", listaAmigosUsuarioConectado);
-            await _hubPostage.Clients.User(usuarioAmigoId).SendAsync("AoAdicionarAmigo", listaAmigosUsuarioAmigo);
-            await _hubPostage.Clients.User(idUsuarioConectado).SendAsync("AtualizarListaNaoAmigos", listaUsuarioConecatadoNaoAmigos);
-            await _hubPostage.Clients.User(usuarioAmigoId).SendAsync("AtualizarListaNaoAmigos",  listaUsuarioAmigoNaoAmigos);
+            await _hubPostagem.Clients.User(idUsuarioConectado).SendAsync("AoAdicionarAmigo", listaAmigosUsuarioConectado);
+            await _hubPostagem.Clients.User(usuarioAmigoId).SendAsync("AoAdicionarAmigo", listaAmigosUsuarioAmigo);
+            await _hubPostagem.Clients.User(idUsuarioConectado).SendAsync("AtualizarListaNaoAmigos", listaUsuarioConecatadoNaoAmigos);
+            await _hubPostagem.Clients.User(usuarioAmigoId).SendAsync("AtualizarListaNaoAmigos",  listaUsuarioAmigoNaoAmigos);
 
 
 
@@ -250,6 +254,42 @@ namespace InstaProj.Controllers
             throw new Exception("Sem postagens no Banco");
         }
 
+        public List<int> GetUsuarioLogados()
+        {
+            var lista = _usuarioLogado.GetLoggedUsersid();
+            return lista;
+        }
+
+        public async void RemoveUsuarioLogado()
+        {
+            var user = _usuarioRepository.GetUsuarioPorEmail(HttpContext.User.Identity.Name);
+            _usuarioLogado.RemoveLoggedUser(user.UsuarioId);
+
+
+            await _hubPostagem.Clients.All.SendAsync("ReceberUserOffline", user.UsuarioId);
+        }
+
+        [HttpPost]
+        public async void VericarERemoveSeUserEstaLogado()
+        {
+            Usuario usuarioLogado = _usuarioRepository.GetUsuarioPorEmail(User.Identity.Name);
+
+            var usuarioLogados = _usuarioLogado.GetLoggedUsersid();
+            var userLogadoNesteContexto = usuarioLogados.Where(u => u == usuarioLogado.UsuarioId).SingleOrDefault();
+            if (userLogadoNesteContexto != 0)
+            {
+                _usuarioLogado.RemoveLoggedUser(usuarioLogado.UsuarioId);
+                _usuarioLogado.AddLoggedUser(usuarioLogado.UsuarioId);
+
+            }
+            else
+            {
+                _usuarioLogado.AddLoggedUser(usuarioLogado.UsuarioId);
+
+            }
+            await  _hubPostagem.Clients.All.SendAsync("RebecerUserOnlineOffline", usuarioLogado.UsuarioId, true);
+
+        }
 
     }
 

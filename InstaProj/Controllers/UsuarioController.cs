@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using InstaProj.Controllers.ControllersTempoReal;
 using InstaProj.Identity;
+using InstaProj.Models;
 using InstaProj.Models.Identity;
 using InstaProj.Models.ViewModels;
 using InstaProj.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace InstaProj.Controllers
 {
@@ -18,13 +21,17 @@ namespace InstaProj.Controllers
         private readonly IUsuarioRepository _usuarioRepository;
         // private readonly UserManager<UsuarioIdentity> _userManager;
         private readonly IAutenticaoRepository _autenticaoRepository;
+        private readonly IHubContext<PostagemHub> _hubPostagem;
+        private readonly IUsuarioLogadoRepository _logadoRepository;
 
 
-
-        public UsuarioController(IUsuarioRepository usuarioRepository, UserManager<UsuarioIdentity> userManager, IAutenticaoRepository autenticaoRepository)
+        public UsuarioController(IUsuarioRepository usuarioRepository, UserManager<UsuarioIdentity> userManager, IAutenticaoRepository autenticaoRepository,
+            IHubContext<PostagemHub> hubPostagem, IUsuarioLogadoRepository logadoRepository)
         {
             _usuarioRepository = usuarioRepository;
             _autenticaoRepository = autenticaoRepository;
+            _hubPostagem = hubPostagem;
+            _logadoRepository = logadoRepository;
         }
 
         [HttpPost]
@@ -44,7 +51,7 @@ namespace InstaProj.Controllers
 
                     Console.Write(e.Message);
                     return "Erro: "+e.Message;
-
+                    
 
                 }
             }
@@ -61,7 +68,11 @@ namespace InstaProj.Controllers
 
                 if (result.Succeeded)
                 {
+                    var usuario = _usuarioRepository.GetUsuarioPorEmail(user.Email);
+                    await _hubPostagem.Clients.All.SendAsync("RebecerUserOnlineOffline", usuario.UsuarioId, true);
+
                     return "Success";
+
                 }
 
                 if (result.IsLockedOut)
@@ -88,6 +99,10 @@ namespace InstaProj.Controllers
             try
             {
                await _autenticaoRepository.RealizarLogOff();
+                var usuario = _usuarioRepository.GetUsuarioPorEmail(HttpContext.User.Identity.Name);
+
+                await _hubPostagem.Clients.All.SendAsync("RebecerUserOnlineOffline", usuario.UsuarioId, false);
+
             }
             catch (Exception e)
             {

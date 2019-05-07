@@ -71,7 +71,7 @@ img.responsive-img {
 
 #container-feed{
     overflow: auto;
-    height:850px;
+    height:500px;
 }
 
 .carousel .indicators .indicator-item.active {

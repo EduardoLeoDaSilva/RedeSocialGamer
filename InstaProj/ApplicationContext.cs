@@ -1,4 +1,5 @@
 ﻿using InstaProj.Controllers.ControllersTempoReal;
+using InstaProj.Models;
 using InstaProj.Models.Entidades;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -39,6 +40,8 @@ namespace InstaProj
             modelBuilder.Entity<Like>().HasKey(l => new { l.PostagemId,l.UsuarioAutorId });
             modelBuilder.Entity<Like>().HasOne(p => p.UsuarioAutor);
             modelBuilder.Entity<Like>().HasOne(p => p.Postagem);
+
+            modelBuilder.Entity<UsuarioLogado>().HasKey(p => p.UsuarioLogadoId);
             //modelBuilder.Entity<Feed>().HasKey(f => f.FeedId);
             //modelBuilder.Entity<Feed>().HasMany(f => f.Postagens).WithOne(p => p.Feed).IsRequired();
         }

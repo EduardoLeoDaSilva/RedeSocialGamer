@@ -49,7 +49,6 @@ namespace InstaProj.Models.Entidades
         public string Email { get;  set; }
         [DataMember]
         public string Senha { get;  set; }
-        [DataMember]
         public byte[] foto { get;  set; }
         [DataMember]
         public DateTime Nascimento { get;  set; }

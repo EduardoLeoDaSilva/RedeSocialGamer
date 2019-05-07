@@ -159,7 +159,7 @@ function CarregarPostagens() {
 
         lista.forEach(function (postagem) {
             montarNovaPostagem(postagem);
-            MontarLike(postagem)
+            MontarLike(postagem);
             postagem.comentarios.forEach(function (comentario) {
                 MontarComentario(comentario);
 

@@ -72,11 +72,11 @@ namespace InstaProj.Controllers.ControllersTempoReal
             await Clients.Users(user.Id).SendAsync("ReceberMensagem", usuarioConectado, mensagem);
         }
         
-        public async Task VerificarDigitacao(string email , string msg)
+        public async Task VerificarDigitacao(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
             var usuarioConectado = _usuarioRepository.GetUsuarioPorEmail(Context.User.Identity.Name);
-            await Clients.Users(user.Id).SendAsync("ReceberDigitacao", usuarioConectado, msg);
+            await Clients.Users(user.Id).SendAsync("ReceberDigitacao", usuarioConectado, usuarioConectado.Nome + " Está digitando...");
         }
 
         public async Task SendALike(int idPostagem)

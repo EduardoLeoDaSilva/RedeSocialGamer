@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace InstaProj.Identity
@@ -26,7 +27,6 @@ namespace InstaProj.Identity
             usuarioIdentity.Email = usuarioViewModel.Email;
             usuarioIdentity.UserName = usuarioViewModel.Email;
             List<IdentityResult> identityResults = new List<IdentityResult>();
-
             var result = await _userManager.CreateAsync(usuarioIdentity);
             var user = await _userManager.FindByEmailAsync(usuarioViewModel.Email);
             identityResults.Add(result);
@@ -44,6 +44,7 @@ namespace InstaProj.Identity
             var result = await _signInManager.PasswordSignInAsync(email, senha, false, true);
             return result;
         }
+
 
         public async Task RealizarLogOff()
         {

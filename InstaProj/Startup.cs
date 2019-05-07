@@ -77,6 +77,7 @@ namespace InstaProj
             services.AddTransient<ILikeRepository, LikeRepository>();
             services.AddTransient<IImagemRepository, ImagemRepository>();
             services.AddTransient<IComentarioRepository, ComentarioRepository>();
+            services.AddTransient<IUsuarioLogadoRepository, UsuarioLogadoRepository>();
             services.AddTransient<IAmigoRepository, AmigoRepository>();
             services.AddSingleton<NotificacaoDbPostagens, NotificacaoDbPostagens>();
             services.AddTransient<SqlTableDependency<Postagem>>();

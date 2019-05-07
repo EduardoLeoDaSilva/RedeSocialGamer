@@ -41,7 +41,7 @@ namespace InstaProj.Repositories
 
         public List<Postagem> GetPostagens()
         {
-            var postagens = _context.Set<Postagem>().Include(p => p.Usuario).Include(p => p.Comentarios).Include(p => p.Likes).Include(p => p.Imagens).ToList();
+            var postagens = _context.Set<Postagem>().Include(p => p.Usuario).Include(p => p.Comentarios).ThenInclude(p => p.UsuarioAutor).Include(p => p.Likes).Include(p => p.Imagens).ToList();
 
             if(postagens != null)
             {

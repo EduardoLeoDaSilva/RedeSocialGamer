@@ -1,9 +1,11 @@
 ﻿
 $(function () {
+    VerificaSeUsuarioFechouEMudaStatusParaOffilne();
     BuscarListaNaoAmigos();
     buscarListaAmigos();
     AdicionarAmigoECarregaListaEmTempoReal();
     $('.modal').modal();
+    ReloadPaginaInsercaoUsuario();
 });
 
 function BuscarListaNaoAmigos() {
@@ -84,14 +86,17 @@ function montarListaAmigos(listaAmigos){
     ulAmigos.children().remove();
     listaAmigos.forEach(function (user) {
 
-        var liAmigo = $("<li>").attr("id", user.usuarioAmigo.usuarioId).append($("<span>").addClass("new badge blue").attr("data-badge-caption", "nova(s)").text("0"));
+        var liAmigo = $("<li>").attr("id", user.usuarioAmigo.usuarioId).attr("email", user.usuarioAmigo.email).append($("<span>").addClass("new badge blue").attr("data-badge-caption", "nova(s)").text("0"));
+       
         var aBtn = $("<a>");
         var divRow = $("<div>").addClass("row valign-wrapper");
         var divCol1 = $("<div>").addClass("col s2");
         var img = $("<img>").addClass("circle").css("width", "25px", "heigth", "25px").attr("src", "CarregarImagemUsuario/" + user.usuarioAmigo.email);
-        var divCol2 = $("<div>").addClass("col s10");
+        var divCol2 = $("<div>").addClass("col s8");
         var span = $("<span>").addClass("black-text").text(user.usuarioAmigo.nome);
-
+        var divCol3 = $("<div>").addClass("col s2");
+        var isOnlineIcon = $("<i>").addClass("tiny material-icons").text("brightness_1").css("color", "red");
+        isOnlineIcon.attr("isOnlineIcon", "");
         aBtn.click(function () {
             var modal = $("#"+user.usuarioAmigo.usuarioId+".modal");
             //verifica se o modal existe para não criar outros
@@ -108,14 +113,16 @@ function montarListaAmigos(listaAmigos){
 
         });
 
-        
 
+
+        divCol3.append(isOnlineIcon);
         divCol2.append(span);
         divCol1.append(img);
-        divRow.append(divCol1, divCol2);
+        divRow.append(divCol1, divCol2, divCol3);
         aBtn.append(divRow);
         liAmigo.append(aBtn);
         ulAmigos.append(liAmigo);
+        VerificarSeUsuarioOnlineOfflineInicial();
 
     });
 
@@ -173,7 +180,7 @@ function montarModelChat(user) {
             connection.invoke("VerificarDigitacao", user.email, "");
 
         } else {
-            connection.invoke("VerificarDigitacao", user.email, user.nome +" está digitando...");
+            connection.invoke("VerificarDigitacao", user.email);
             divBtnEnviar.attr("disabled", false);
 
         }
@@ -220,3 +227,52 @@ connection.on("ReceberDigitacao", function (usuario, msg) {
 
     modal.find("span[id=isDigitando]").text(msg);
 });
+
+
+connection.on("RebecerUserOnlineOffline", function (idUser, isOnline) {
+    var liAmigo = $("li#" + idUser);
+    var icon = liAmigo.find("[isOnlineIcon]");
+    if (isOnline == true) {
+        icon.css("color", "green");
+    } else {
+        icon.css("color", "red");
+
+    }
+});
+
+function VerificarSeUsuarioOnlineOfflineInicial() {
+
+    $.post("GetUsuarioLogados", function (response) {
+        response.forEach(function (idUser) {
+            var liAmigo = $("li#" + idUser);
+            var icon = liAmigo.find("[isOnlineIcon]");
+            icon.css("color", "green");
+
+
+        });
+    });
+}
+
+
+function VerificaSeUsuarioFechouEMudaStatusParaOffilne() {
+
+    window.onbeforeunload = function () {
+        $.post("RemoveUsuarioLogado");
+
+    };
+}
+
+
+function ReloadPaginaInsercaoUsuario() {
+    $.post("VericarERemoveSeUserEstaLogado");
+    
+}
+
+connection.on("ReceberUserOffline", function (userId) {
+    var liAmigo = $("li#" + userId);
+
+    var icon = liAmigo.find("[isOnlineIcon]");
+    icon.css("color", "red");
+});
+
+
