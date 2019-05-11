@@ -33,7 +33,7 @@ function recebeListaNoticiasServidor() {
     });
 }
 
-//verifica se essa noticia existe na pagina pra n�o repetila novamente
+//verifica se essa noticia existe na pagina pra n�o repeti-la novamente
 function temEssaNoticia(response) {
     var hasNoticia = true;
     var cardGroup = $(".card.blue-grey");

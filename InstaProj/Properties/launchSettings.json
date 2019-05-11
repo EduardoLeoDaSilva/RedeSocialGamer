@@ -7,7 +7,7 @@
       "sslPort": 0
     },
     "iisExpress": {
-      "applicationUrl": "http://localhost:52146/",
+      "applicationUrl": "http://187.48.178.125:52145/",
       "sslPort": 0
     }
   },
@@ -25,7 +25,7 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "http://localhost:52145/"
+      "applicationUrl": "http://gamelife.sytes.net:52145/"
     },
     "newProfile1": {
       "commandName": "IISExpress"

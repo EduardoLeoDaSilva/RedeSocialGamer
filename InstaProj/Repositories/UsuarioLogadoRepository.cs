@@ -40,8 +40,12 @@ namespace InstaProj.Repositories
         public void RemoveLoggedUser(int userId)
         {
                 var user = _context.Set<UsuarioLogado>().Where(u => u.UsuarioLogadoId == userId).SingleOrDefault();
+            if(user != null)
+            {
                 _context.Set<UsuarioLogado>().Remove(user);
                 _context.SaveChanges();
+            }
+                
         }
 
     }
